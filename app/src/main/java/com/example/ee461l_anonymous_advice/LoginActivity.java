@@ -349,4 +349,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 }
 
 //GitTest1
+
 //Rodolfo Gonzalez Salinas Ibarra Montemayor Ibarra.
+
+//Tarang
+
