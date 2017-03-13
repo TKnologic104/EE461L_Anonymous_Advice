@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "846964456344",
-    "project_id": "silent-eye-161310"
+    "project_number": "409323917499",
+    "project_id": "anonymousadvice-161405"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:846964456344:android:a96685821efe2962",
+        "mobilesdk_app_id": "1:409323917499:android:84f097cf69b62db2",
         "android_client_info": {
-          "package_name": "com.example.tk_whatsappclone"
+          "package_name": "com.example.ee461l_anonymous_advice"
         }
       },
       "oauth_client": [
         {
-          "client_id": "846964456344-mrb76vt6tdrqcbqpd93ti71ea72rblpr.apps.googleusercontent.com",
+          "client_id": "409323917499-7s32uaav86a0ed5jj869iq3d2kdm31dm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.tk_whatsappclone",
+            "package_name": "com.example.ee461l_anonymous_advice",
             "certificate_hash": "8414d2a59dd2b20653f9bd4b5eee2b873f3e867a"
           }
         },
         {
-          "client_id": "846964456344-q4hvlca3v58pvttlu1qgedr3k87sfknd.apps.googleusercontent.com",
+          "client_id": "409323917499-3cqsuslsfi16u9nn9tpsub3p74apf937.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAtraDjR3S2beDmIcVvoYNsBAD4Acw2CfQ"
+          "current_key": "AIzaSyCAuONQ9cuyBW4BgHhHIRkKUIufv-Q107M"
         }
       ],
       "services": {
