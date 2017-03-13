@@ -2,15 +2,11 @@
     <string name="app_name">EE461L_Anonymous_Advice</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="rate_advice">Rate Advice</string>
+    <string name="rate_button">Submit</string>
+    <string name="seekBarProgressTextView">progress</string>
+    <string name="default_seekbar_content">0 of 10</string>
+    <string name="report_reasons_text">Why do you want to report this user?</string>
+    <string name="report_button">Submit</string>
+    <string name="rate_advice_text">On a scale of 1 to 10, how helpful was this advice?</string>
 </resources>
