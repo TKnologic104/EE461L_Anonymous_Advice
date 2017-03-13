@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ee461l_anonymous_advice.LoginActivity">
+    tools:context="com.example.ee461l_anonymous_advice.LoginActivity"
+    android:weightSum="1">
 
     <!-- Login progress -->
     <ProgressBar
@@ -22,7 +23,7 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="295dp">
 
         <LinearLayout
             android:id="@+id/email_login_form"
@@ -73,5 +74,17 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+
+
     </ScrollView>
+
+    <com.google.android.gms.common.SignInButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        android:id="@+id/bn_login"
+        android:layout_weight="0.05"></com.google.android.gms.common.SignInButton>
+
 </LinearLayout>

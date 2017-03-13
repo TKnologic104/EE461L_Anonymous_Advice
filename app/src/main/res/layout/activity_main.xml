@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.ee461l_anonymous_advice.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/prof_section"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp">
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/prof_pic"
+            android:src="@drawable/photo"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name Display Here"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:id="@+id/name"
+                android:gravity="center"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email Display Here"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:id="@+id/gmail"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Logout Google Account"
+                android:id="@+id/bn_logout"
+                android:onClick="onClick (MainActivity)" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contine to Landing Screen"
+                android:id="@+id/bn_landing"
+                android:onClick="gotoLanding" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
