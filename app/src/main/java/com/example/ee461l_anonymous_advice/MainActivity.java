@@ -1,9 +1,14 @@
 package com.example.ee461l_anonymous_advice;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -47,6 +52,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //import picture using glide. 27:00 in youtube video
         //updateUI(true);
 
+
+    }
+
+    public void showNotification(View v){
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        // by using this we can set the parameters for the notification.
+        builder.setSmallIcon(R.drawable.photo);
+        builder.setContentTitle("My Notification");
+        builder.setContentText("This is my first notification...");
+        //we have to make an intent for starting the activity.
+        Intent gotoNoti = new Intent(this, SecondClass.class);
+
+        //the purpose of the stackuilder object is to return you to home screen
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(SecondClass.class);
+        stackBuilder.addNextIntent(gotoNoti);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+        NotificationManager NM = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NM.notify(0, builder.build());
 
     }
 

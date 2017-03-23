@@ -62,6 +62,17 @@
                 android:id="@+id/bn_landing"
                 android:onClick="gotoLanding" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Show Notification"
+                android:id="@+id/bn_notif"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="94dp"
+                android:onClick="showNotification"
+                />
+
         </LinearLayout>
 
 
