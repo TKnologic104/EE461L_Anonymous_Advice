@@ -24,8 +24,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.ee461l_anonymous_advice.LandingActivity" />
-        <activity android:name="com.example.ee461l_anonymous_advice.MainActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".LandingActivity" />
+        <activity android:name=".RateAdvice">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
+        <activity android:name=".ReportReasons">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
+        <!--<activity android:name="com.example.ee461l_anonymous_advice.LandingActivity" />-->
+        <!--<activity android:name="com.example.ee461l_anonymous_advice.MainActivity"></activity>-->
     </application>
 
 </manifest>
