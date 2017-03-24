@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setContentIntent(pendingIntent);
         NotificationManager NM = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NM.notify(0, builder.build());
-        //test
+        //testfixed
     }
 
 //    private void updateUI(boolean b) {
