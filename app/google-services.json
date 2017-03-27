@@ -23,14 +23,6 @@
         {
           "client_id": "409323917499-3cqsuslsfi16u9nn9tpsub3p74apf937.apps.googleusercontent.com",
           "client_type": 3
-        },
-        {
-          "client_id": "409323917499-k4831gapm20ouk8e5mokoinkvl3jqtrp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.ee461l_anonymous_advice",
-            "certificate_hash": "8414d2a59dd2b20653f9bd4b5eee2b873f3e867a"
-          }
         }
       ],
       "api_key": [
