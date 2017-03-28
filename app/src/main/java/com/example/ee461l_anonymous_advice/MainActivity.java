@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
+                //TODO: Sign-Out User
                 Toast.makeText(MainActivity.this, "this should sign you out", Toast.LENGTH_LONG).show();
 
             }

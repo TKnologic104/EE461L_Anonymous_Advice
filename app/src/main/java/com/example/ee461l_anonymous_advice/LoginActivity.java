@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
@@ -330,21 +331,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     protected void handleResult(GoogleSignInResult result){
         if(result.isSuccess()){
-//
-//            Intent googleLogin = new Intent(this, MainActivity.class);
-//
-//
-//            GoogleSignInAccount account = result.getSignInAccount();
-//            String name = account.getDisplayName();
-//            String gmail = account.getEmail();
-//            String img_url = account.getPhotoUrl().toString();
-//
-//            googleLogin.putExtra("username",name);
-//            googleLogin.putExtra("userEmail", gmail);
-//            googleLogin.putExtra("userIMG", img_url);
-//
-//            startActivity(googleLogin);
-            Toast.makeText(LoginActivity.this, "YO! Login Failed bruh", Toast.LENGTH_LONG).show();
+
+            Intent googleLogin = new Intent(this, MainActivity.class);
+
+
+            GoogleSignInAccount account = result.getSignInAccount();
+            String name = account.getDisplayName();
+            String gmail = account.getEmail();
+            String img_url = account.getPhotoUrl().toString();
+
+            googleLogin.putExtra("username",name);
+            googleLogin.putExtra("userEmail", gmail);
+            googleLogin.putExtra("userIMG", img_url);
+
+            startActivity(googleLogin);
+
         }
         else {
             Toast.makeText(LoginActivity.this, "YO! Login Failed bruh", Toast.LENGTH_LONG).show();
