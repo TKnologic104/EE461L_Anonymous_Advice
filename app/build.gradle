@@ -18,6 +18,9 @@ android {
         }
     }
 }
+repositories {
+    maven { url "https://raw.githubusercontent.com/smilefam/SendBird-SDK-Android/master/" }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -26,6 +29,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.sendbird.sdk:sendbird-android-sdk:3.0.22'
 
 
 //    compile 'com.android.support:appcompat-v7:3.3'
