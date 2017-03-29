@@ -338,11 +338,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             GoogleSignInAccount account = result.getSignInAccount();
             String name = account.getDisplayName();
             String gmail = account.getEmail();
-            String img_url = account.getPhotoUrl().toString();
+            //String img_url = account.getPhotoUrl().toString();
 
             googleLogin.putExtra("username",name);
             googleLogin.putExtra("userEmail", gmail);
-            googleLogin.putExtra("userIMG", img_url);
+            //googleLogin.putExtra("userIMG", img_url);
 
             startActivity(googleLogin);
 
@@ -398,6 +398,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             // TODO: register the new account here.
+
             return true;
         }
 

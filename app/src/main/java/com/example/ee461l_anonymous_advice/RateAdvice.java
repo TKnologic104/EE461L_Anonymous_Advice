@@ -24,8 +24,10 @@ public class RateAdvice extends AppCompatActivity {
         setUp();
         seekBar = (SeekBar) findViewById(R.id.seekBarAdviceRating);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                seekBarTextview.setText("i" + " of " + seekBar.getMax());
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekBarTextview.setText(progress + " of " + seekBar.getMax());
+                rating = progress;
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {

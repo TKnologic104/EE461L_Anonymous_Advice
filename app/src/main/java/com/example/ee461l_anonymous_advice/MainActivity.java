@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showNotification(View v){
-
+        //Uses the builder design Pattern for implementation a notification system.
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         // by using this we can set the parameters for the notification.
         builder.setSmallIcon(R.drawable.photo);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setContentIntent(pendingIntent);
         NotificationManager NM = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NM.notify(0, builder.build());
-        //test
+        //testfixed
     }
 
 //    private void updateUI(boolean b) {
