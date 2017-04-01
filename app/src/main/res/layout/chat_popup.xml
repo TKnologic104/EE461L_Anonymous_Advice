@@ -21,15 +21,19 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Chat Has Been Closed" />
 
             <ImageView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_chat_closed_icon_24dp" />
-
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Report"
+                android:id="@+id/popup_report_btn"/>
             <Button
                 android:id="@+id/dismiss"
                 android:layout_width="fill_parent"
