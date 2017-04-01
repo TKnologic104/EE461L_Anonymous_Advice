@@ -27,11 +27,17 @@ public class LandingActivity extends AppCompatActivity {
         search = (Button)findViewById(R.id.bn_search);
         friends = (Button)findViewById(R.id.bn_friends);
 
+
+
     }
 
     public void gotoProfile(View v){
         //TODO: create Profile Activity
+        String tempName = (getIntent().getStringExtra("username"));
+        String tempEmail = (getIntent().getStringExtra("userEmail"));
         Intent gotoProfile = new Intent(this, com.example.ee461l_anonymous_advice.MainActivity.class);
+        gotoProfile.putExtra("username",tempName);
+        gotoProfile.putExtra("userEmail",tempEmail);
         startActivity(gotoProfile);
         //create intent to goto Profile
     }
