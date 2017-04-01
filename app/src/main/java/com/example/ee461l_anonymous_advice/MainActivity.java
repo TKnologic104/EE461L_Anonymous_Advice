@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -93,9 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
-                //TODO: Sign-Out User
-                Toast.makeText(MainActivity.this, "this should sign you out", Toast.LENGTH_LONG).show();
-
+                Intent googleLogout = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(googleLogout);
             }
         });
     }
