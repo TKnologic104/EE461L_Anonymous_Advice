@@ -9,11 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -80,7 +82,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        signOut();
+        Toast.makeText(MainActivity.this, "inside Onclick", Toast.LENGTH_LONG).show();
+        onLogout();
+
     }
 
     public void gotoLanding(View v){
@@ -88,16 +92,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(gotoLanding);
     }
 
-    private void signOut(){
-        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+//    private void signOut(){
+//        googleApiClient.disconnect();
+//        Toast.makeText(MainActivity.this, "user Disconnected", Toast.LENGTH_LONG).show();
+//        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+//            @Override
+//            public void onResult(@NonNull Status status) {
+//                Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
+//                Intent googleLogout = new Intent(getApplicationContext(), LoginActivity.class);
+//                startActivity(googleLogout);
+//            }
+//        });
+//    }
+//    private void handleResult(GoogleSignInResult result){
+//
+//    }
+
+    //----------------------------------testing sign out ---------------------------------
+
+    private static final int RC_SIGN_IN = 0;
+
+    protected GoogleApiClient mGoogleApiClient;
+    protected Context mContext;
+
+    /* "mIntentInProgress" is A flag indicating that a PendingIntent is in progress and prevents
+     * us from starting further intents.
+     * True if we are in the process of resolving a ConnectionResult
+     * "mSignInClicked" FLAG is True if the sign-in button was clicked.  When true, we know to resolve all
+     * issues preventing sign-in without waiting.
+     */
+
+    public boolean mIntentInProgress;
+    public boolean mSignInClicked;
+
+    public String mPersonName;
+    public String mImageUrl;
+    public String mEmailAddress;
+
+    public void CreateClient(Context mContext){
+        //Client builder that return GoogleAPI client, make the connection from the app to the G+ service
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)//add OnConnected and OnConnectionSuspended methods to control the connection state
+//                .addOnConnectionFailedListener(this) // add OnConnectionFaild listener in case connection was failed.
+//                .addApi(Plus.API)
+//                .addScope(Plus.SCOPE_PLUS_PROFILE)//profile permission from the user
+//                .addScope(Plus.SCOPE_PLUS_LOGIN)// login details from the user
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    public void onLogout() {
+
+        Log.i("base class", "logout invoked");
+
+            Log.i("base class", "logout invoked");
+                    Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
+                Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
                 Intent googleLogout = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(googleLogout);
             }
         });
+
+            mGoogleApiClient.disconnect();
+            //mGoogleApiClient.connect();
+
+        }
     }
-//    private void handleResult(GoogleSignInResult result){
-//
-//    }
-}
+
