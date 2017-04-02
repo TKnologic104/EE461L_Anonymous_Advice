@@ -1,13 +1,12 @@
 package com.example.ee461l_anonymous_advice;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 //comment
 public class ChatActivity extends AppCompatActivity {
     private Button mSendButton;
-    private ImageButton mCloseButton;
+    private Button mCloseButton;
     private TextView mMessage;
     private ArrayList<String> mList_of_Messages =  new ArrayList<>();
 
@@ -27,7 +26,7 @@ public class ChatActivity extends AppCompatActivity {
 
         mMessage = (TextView)findViewById(R.id.edit_text_chat_message);
         mSendButton = (Button)findViewById(R.id.button_chat_send);
-        mCloseButton = (ImageButton)findViewById(R.id.button_chat_close);
+        mCloseButton = (Button)findViewById(R.id.button_chat_close);
 
         mSendButton.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View arg){
