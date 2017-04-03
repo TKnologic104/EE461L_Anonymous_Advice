@@ -1,7 +1,9 @@
 package com.example.ee461l_anonymous_advice;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -25,15 +27,25 @@ public class LandingActivity extends AppCompatActivity {
         search = (Button)findViewById(R.id.bn_search);
         friends = (Button)findViewById(R.id.bn_friends);
 
+
+
     }
 
-    public void gotoProfile(){
+    public void gotoProfile(View v){
         //TODO: create Profile Activity
+        String tempName = (getIntent().getStringExtra("username"));
+        String tempEmail = (getIntent().getStringExtra("userEmail"));
+        Intent gotoProfile = new Intent(this, com.example.ee461l_anonymous_advice.MainActivity.class);
+        gotoProfile.putExtra("username",tempName);
+        gotoProfile.putExtra("userEmail",tempEmail);
+        startActivity(gotoProfile);
         //create intent to goto Profile
     }
 
-    public void search(){
+    public void search(View v){
         problemStatement = (String)problem.getText().toString();
+        Intent gotoChat = new Intent(this, ChatActivity.class);
+        startActivity(gotoChat);
         //TODO: Full networking functionality, also pass problem statement.
     }
 

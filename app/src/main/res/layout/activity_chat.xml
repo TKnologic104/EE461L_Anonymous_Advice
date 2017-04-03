@@ -16,14 +16,6 @@
             android:orientation="horizontal"
             android:minHeight="48dp">
 
-            <ImageButton
-                android:id="@+id/button_chat_close"
-                android:src="@drawable/ic_clear_black_24dp"
-                android:background="?attr/selectableItemBackground"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:contentDescription="Exit Chat"
-                android:layout_gravity="bottom"/>
 
             <EditText
                 android:id="@+id/edit_text_chat_message"
@@ -66,17 +58,35 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center">
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/button_chat_close"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Exit Chat"
+                    android:text="Exit"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/button_add_friend"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Add friend"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/question"
-                    android:textSize="26dp"/>
-            </LinearLayout>
+                    android:textSize="26dp"
+                    android:layout_gravity="center"/>
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_chat"
