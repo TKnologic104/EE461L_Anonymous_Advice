@@ -31,20 +31,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView Name, Gmail;
     private ImageView Prof_Pic;
     private GoogleApiClient googleApiClient;
-    private static final int REQ_CODE= 9901;
+    private static final int REQ_CODE = 9901;
     private Button gotoLanding;
+    private Button gotoFAQ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Prof_Section = (LinearLayout)findViewById(R.id.prof_section);
-        SignOut = (Button)findViewById(R.id.bn_logout);
-        Name = (TextView)findViewById(R.id.name);
-        Gmail = (TextView)findViewById(R.id.gmail);
-        Prof_Pic = (ImageView)findViewById(R.id.prof_pic);
+        Prof_Section = (LinearLayout) findViewById(R.id.prof_section);
+        SignOut = (Button) findViewById(R.id.bn_logout);
+        Name = (TextView) findViewById(R.id.name);
+        Gmail = (TextView) findViewById(R.id.gmail);
+        Prof_Pic = (ImageView) findViewById(R.id.prof_pic);
         SignOut.setOnClickListener(this);
-        gotoLanding = (Button)findViewById(R.id.bn_landing);
+        gotoLanding = (Button) findViewById(R.id.bn_landing);
+        gotoFAQ = (Button) findViewById(R.id.bn_faq);
 
         //String Name = String.valueOf(getIntent());
         Intent intent = getIntent();
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void showNotification(View v){
+    public void showNotification(View v) {
         //Uses the builder design Pattern for implementation a notification system.
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         // by using this we can set the parameters for the notification.
@@ -87,10 +89,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void gotoLanding(View v){
+    public void gotoLanding(View v) {
         Intent gotoLanding = new Intent(this, com.example.ee461l_anonymous_advice.LandingActivity.class);
         startActivity(gotoLanding);
     }
+
+    public void gotoFAQ(View v) {
+        Intent gotoFAQ = new Intent(this, com.example.ee461l_anonymous_advice.FAQ.class);
+        startActivity(gotoFAQ);
+    }
+
 
 //    private void signOut(){
 //        googleApiClient.disconnect();
@@ -129,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public String mImageUrl;
     public String mEmailAddress;
 
-    public void CreateClient(Context mContext){
+    public void CreateClient(Context mContext) {
         //Client builder that return GoogleAPI client, make the connection from the app to the G+ service
         mGoogleApiClient = new GoogleApiClient.Builder(this)
 //                .addConnectionCallbacks(this)//add OnConnected and OnConnectionSuspended methods to control the connection state
@@ -145,8 +153,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.i("base class", "logout invoked");
 
-            Log.i("base class", "logout invoked");
-                    Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+        Log.i("base class", "logout invoked");
+        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
                 Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
@@ -155,9 +163,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-            mGoogleApiClient.disconnect();
-            //mGoogleApiClient.connect();
+        mGoogleApiClient.disconnect();
+        //mGoogleApiClient.connect();
 
-        }
     }
+}
 
