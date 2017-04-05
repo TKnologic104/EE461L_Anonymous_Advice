@@ -323,7 +323,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             handleResult(result);
         }
     }
-
+//commit new changed
     private void signOut(){
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
