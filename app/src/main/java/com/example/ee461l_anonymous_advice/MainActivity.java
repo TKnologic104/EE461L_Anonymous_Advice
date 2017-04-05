@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
@@ -90,12 +91,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void gotoLanding(View v) {
+        String tempName = (getIntent().getStringExtra("username"));
+        String tempEmail = (getIntent().getStringExtra("userEmail"));
         Intent gotoLanding = new Intent(this, com.example.ee461l_anonymous_advice.LandingActivity.class);
+        gotoLanding.putExtra("username", tempName);
+        gotoLanding.putExtra("userEmail", tempEmail);
         startActivity(gotoLanding);
     }
 
     public void gotoFAQ(View v) {
+        String tempName = (getIntent().getStringExtra("username"));
+        String tempEmail = (getIntent().getStringExtra("userEmail"));
         Intent gotoFAQ = new Intent(this, com.example.ee461l_anonymous_advice.FAQ.class);
+        gotoFAQ.putExtra("username", tempName);
+        gotoFAQ.putExtra("userEmail", tempEmail);
         startActivity(gotoFAQ);
     }
 
