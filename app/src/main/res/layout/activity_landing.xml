@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:gravity="center"
-            android:text="this should change"
+            android:text="150"
             android:textSize="10sp"
             android:textStyle="italic" />
 
