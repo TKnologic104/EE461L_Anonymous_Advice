@@ -10,51 +10,85 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ee461l_anonymous_advice.LandingActivity">
 
-    <Button
-        android:text="Profile"
-        android:layout_height="wrap_content"
-        android:id="@+id/bn_profile"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:onClick="gotoProfile" />
+    <LinearLayout
 
-    <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:layout_marginTop="40dp"
-        android:id="@+id/problemText"
-        android:hint="type here"
-        android:layout_below="@+id/bn_profile"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_row="1"
-        android:layout_column="0"
-        android:selectAllOnFocus="false"
-        android:paddingBottom="170dp"
-        android:theme="@style/AlertDialog.AppCompat"
-        style="@style/Widget.AppCompat.AutoCompleteTextView" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:text="Find Advice Giver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:id="@+id/bn_search"
-        android:onClick="search"
-        android:layout_below="@+id/problemText"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/bn_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:onClick="gotoProfile"
+            android:text="Profile" />
 
-    <Button
-        android:text="Friend List"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bn_friends"
-        android:elevation="0dp"
-        android:onClick="gotoFriends"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="23dp" />
+        <EditText
+            android:id="@+id/problemText"
+            style="@style/Widget.AppCompat.AutoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/bn_profile"
+            android:layout_column="0"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="40dp"
+            android:layout_row="1"
+            android:ems="10"
+            android:hint="type here"
+            android:inputType="textMultiLine"
+            android:maxLength="150"
+            android:paddingBottom="20dp"
+            android:selectAllOnFocus="false"
+            android:theme="@style/AlertDialog.AppCompat" />
+
+        <TextView
+            android:id="@+id/charCountValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:text="this should change"
+            android:textSize="10sp"
+            android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:gravity="center|bottom"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/bn_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal|center"
+                android:gravity="center|bottom"
+                android:onClick="search"
+                android:layout_marginBottom="20dp"
+                android:text="Find Advice Giver" />
+
+            <Button
+                android:id="@+id/bn_friends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal|center"
+                android:elevation="0dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center|bottom"
+                android:onClick="gotoFriends"
+                android:text="Friend List" />
+
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>
