@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Toast.makeText(MainActivity.this, "inside Onclick", Toast.LENGTH_LONG).show();
         onLogout();
-
     }
 
     public void gotoLanding(View v) {
