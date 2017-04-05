@@ -60,6 +60,11 @@ public class LandingActivity extends AppCompatActivity {
         //TODO: create intent to goto Friends page
     }
 
+
+    /*
+     * Character counter. Shows how many characters are left for the user to use when typing the problem.
+     */
+
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
