@@ -19,8 +19,12 @@ public class FAQ extends AppCompatActivity {
 
             public void onClick(View view) {
 
-                Intent i = new Intent(FAQ.this, MainActivity.class);
-                startActivity(i);
+                String tempName = (getIntent().getStringExtra("username"));
+                String tempEmail = (getIntent().getStringExtra("userEmail"));
+                Intent goToProfile = new Intent(FAQ.this, MainActivity.class);
+                goToProfile.putExtra("username", tempName);
+                goToProfile.putExtra("userEmail", tempEmail);
+                startActivity(goToProfile);
             }
         });
 
