@@ -17,6 +17,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -32,6 +33,8 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +71,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private GoogleApiClient googleApiClient;
     private SignInButton SignIn;
     private static final int REQ_CODE= 9901;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +109,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //
 //        mLoginFormView = findViewById(R.id.login_form);
 //        mProgressView = findViewById(R.id.login_progress);
+
+        //firebase user info
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        if (mFirebaseUser == null){
+            Log.e("MainActivity", "user is null");
+        }
+
+
     }
 
     private void populateAutoComplete() {
