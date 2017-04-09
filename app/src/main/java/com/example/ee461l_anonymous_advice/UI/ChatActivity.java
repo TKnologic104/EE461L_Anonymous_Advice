@@ -1,4 +1,4 @@
-package com.example.ee461l_anonymous_advice;
+package com.example.ee461l_anonymous_advice.UI;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.ee461l_anonymous_advice.R;
 
 import java.util.ArrayList;
 //comment

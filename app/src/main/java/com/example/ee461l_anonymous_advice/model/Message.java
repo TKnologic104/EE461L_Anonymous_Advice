@@ -1,4 +1,4 @@
-package com.example.ee461l_anonymous_advice;
+package com.example.ee461l_anonymous_advice.model;
 
 import java.util.Date;
 

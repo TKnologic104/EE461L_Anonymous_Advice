@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "409323917499",
-    "project_id": "anonymousadvice-161405"
+    "firebase_url": "https://anonymousadvice-161405.firebaseio.com",
+    "project_id": "anonymousadvice-161405",
+    "storage_bucket": "anonymousadvice-161405.appspot.com"
   },
   "client": [
     {
@@ -12,6 +14,26 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "409323917499-pq3umvd978icnrcnjrjtfkisll81qb79.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "409323917499-2q4hunko1r55m53k4sulp0lrdc6hj905.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ee461l_anonymous_advice",
+            "certificate_hash": "bb63e812fa76714ed4b5638b95135ba7857f1151"
+          }
+        },
+        {
+          "client_id": "409323917499-k4831gapm20ouk8e5mokoinkvl3jqtrp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ee461l_anonymous_advice",
+            "certificate_hash": "a00b34667e751950e3d605a492b613b8a3a12530"
+          }
+        },
         {
           "client_id": "409323917499-7s32uaav86a0ed5jj869iq3d2kdm31dm.apps.googleusercontent.com",
           "client_type": 1,
@@ -35,11 +57,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "409323917499-pq3umvd978icnrcnjrjtfkisll81qb79.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

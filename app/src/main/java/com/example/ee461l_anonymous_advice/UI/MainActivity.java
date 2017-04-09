@@ -1,4 +1,4 @@
-package com.example.ee461l_anonymous_advice;
+package com.example.ee461l_anonymous_advice.UI;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,12 +18,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ee461l_anonymous_advice.LandingActivity;
+import com.example.ee461l_anonymous_advice.R;
+import com.example.ee461l_anonymous_advice.SecondClass;
+import com.example.ee461l_anonymous_advice.model.User;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private DatabaseReference mDatabaseReference;
 
     //FriendlyChat's variables
     private static final String TAG = "MainActivity";
@@ -127,8 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (mFirebaseUser.getPhotoUrl() != null) {
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
+            addUserToDB();
         }
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
@@ -145,6 +151,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Gmail.setText(mFirebaseUser.getEmail());
 
 
+    }
+
+    public void addUserToDB()
+    {
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
+        //String id = mDatabaseReference.push().getKey();
+
+        User user =  new User(mFirebaseUser.getUid(),mFirebaseUser.getEmail());
+        mDatabaseReference.child(mFirebaseUser.getUid()).setValue(user);
     }
 
     public void showNotification(View v) {
@@ -209,21 +224,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-//    private void signOut(){
-//        googleApiClient.disconnect();
-//        Toast.makeText(MainActivity.this, "user Disconnected", Toast.LENGTH_LONG).show();
-//        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
-//            @Override
-//            public void onResult(@NonNull Status status) {
-//                Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
-//                Intent googleLogout = new Intent(getApplicationContext(), LoginActivity.class);
-//                startActivity(googleLogout);
-//            }
-//        });
-//    }
-//    private void handleResult(GoogleSignInResult result){
-//
-//    }
 
 
 }

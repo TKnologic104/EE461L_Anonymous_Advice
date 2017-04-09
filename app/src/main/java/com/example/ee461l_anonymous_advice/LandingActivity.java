@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.ee461l_anonymous_advice.UI.ChatActivity;
+import com.example.ee461l_anonymous_advice.UI.MainActivity;
+
 //import com.example.tk_whatsappclone.R;
 
 public class LandingActivity extends AppCompatActivity {
@@ -42,7 +45,7 @@ public class LandingActivity extends AppCompatActivity {
         //TODO: create Profile Activity
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
-        Intent gotoProfile = new Intent(this, com.example.ee461l_anonymous_advice.MainActivity.class);
+        Intent gotoProfile = new Intent(this, MainActivity.class);
         gotoProfile.putExtra("username",tempName);
         gotoProfile.putExtra("userEmail",tempEmail);
         startActivity(gotoProfile);
