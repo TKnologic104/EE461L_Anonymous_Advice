@@ -143,7 +143,7 @@ public class IM_Activity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_im_);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Set default username is anonymous.
         mUsername = ANONYMOUS;
@@ -196,7 +196,19 @@ public class IM_Activity extends AppCompatActivity
         mMessageRecyclerView = (RecyclerView) findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
+        //mLayoutManager = new LinearLayoutManager(this);
+
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
         mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
+        //mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
+        //mMessageRecyclerView.setLayoutManager(new LinearLayoutManager(mMessageRecyclerView.getContext()));
+
+
+
+
+
+
 
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
