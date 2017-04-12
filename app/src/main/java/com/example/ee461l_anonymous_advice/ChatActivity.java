@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-//comment
+//comment2
 public class ChatActivity extends AppCompatActivity {
     private Button mSendButton;
     private Button mCloseButton;
