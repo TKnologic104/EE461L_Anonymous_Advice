@@ -80,7 +80,7 @@ public class IM_Activity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     public Action getIndexApiAction() {
-        return Actions.newView("Main", "http://[ENTER-YOUR-URL-HERE]");
+        return Actions.newView("Main", "https://anonymousadvice-161405.firebaseio.com/");
     }
 
     @Override
