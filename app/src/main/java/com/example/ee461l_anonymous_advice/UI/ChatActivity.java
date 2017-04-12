@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.ee461l_anonymous_advice.R;
 
 import java.util.ArrayList;
-//comment
+//comment2
 public class ChatActivity extends AppCompatActivity {
     private Button mSendButton;
     private Button mCloseButton;

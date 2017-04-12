@@ -54,7 +54,7 @@ public class LandingActivity extends AppCompatActivity {
 
     public void search(View v){
         problemStatement = (String)problem.getText().toString();
-        Intent gotoChat = new Intent(this, ChatActivity.class);
+        Intent gotoChat = new Intent(this, IM_Activity.class);
         startActivity(gotoChat);
         //TODO: Full networking functionality, also pass problem statement.
     }
