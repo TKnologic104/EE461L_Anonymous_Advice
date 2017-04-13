@@ -1,4 +1,4 @@
-package com.example.ee461l_anonymous_advice.UI;
+package com.example.ee461l_anonymous_advice;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,10 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ee461l_anonymous_advice.LandingActivity;
-import com.example.ee461l_anonymous_advice.R;
-import com.example.ee461l_anonymous_advice.SecondClass;
-import com.example.ee461l_anonymous_advice.model.User;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -51,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQ_CODE = 9901;
     private Button gotoLanding;
     private Button gotoFAQ;
+    private User user;
+
+    private String tempId;
 
     //Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -156,10 +155,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void addUserToDB()
     {
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
-        //String id = mDatabaseReference.push().getKey();
 
-        User user =  new User(mFirebaseUser.getUid(),mFirebaseUser.getEmail());
-        mDatabaseReference.child(mFirebaseUser.getUid()).setValue(user);
+        tempId = mDatabaseReference.push().getKey();
+
+        user =  new User(tempId,mFirebaseUser.getEmail());
+
+        mDatabaseReference.child(tempId).setValue(user);
     }
 
     public void showNotification(View v) {
@@ -198,6 +199,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent gotoLanding = new Intent(this, com.example.ee461l_anonymous_advice.LandingActivity.class);
         gotoLanding.putExtra("username", tempName);
         gotoLanding.putExtra("userEmail", tempEmail);
+        gotoLanding.putExtra("email",mFirebaseUser.getEmail());
+        gotoLanding.putExtra("userId",tempId);
         startActivity(gotoLanding);
     }
 

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.ee461l_anonymous_advice.UI.MainActivity;
-
 
 public class FAQ extends AppCompatActivity {
     private Button goToProfile;

@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.ee461l_anonymous_advice.UI.ChatActivity;
-import com.example.ee461l_anonymous_advice.UI.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 //import com.example.tk_whatsappclone.R;
 
@@ -23,6 +25,8 @@ public class LandingActivity extends AppCompatActivity {
     private Button search;
     private Button friends;
     public String problemStatement;
+
+    private DatabaseReference mDatabaseReference;
 
 
     @Override
@@ -55,8 +59,22 @@ public class LandingActivity extends AppCompatActivity {
     public void search(View v){
         problemStatement = (String)problem.getText().toString();
         Intent gotoChat = new Intent(this, IM_Activity.class);
+        createChatChannelDB();
         startActivity(gotoChat);
         //TODO: Full networking functionality, also pass problem statement.
+    }
+
+    public void createChatChannelDB(){
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("ChatChannel");
+
+        String temp = mDatabaseReference.push().getKey();
+        System.out.println(getIntent().getStringExtra("userId")+" "+getIntent().getStringExtra("email"));
+        ChatChannel channel =  new ChatChannel(temp,
+                new User(getIntent().getStringExtra("userId"),
+                         getIntent().getStringExtra("email")));
+
+        mDatabaseReference.child(temp).setValue(channel);
+
     }
 
     public void gotoFriends(){

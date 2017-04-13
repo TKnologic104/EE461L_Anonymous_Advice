@@ -29,8 +29,7 @@ import android.text.InputFilter;
         import android.support.v7.widget.LinearLayoutManager;
         import android.support.v7.widget.RecyclerView;
         import android.text.Editable;
-        import android.text.InputFilter;
-        import android.text.TextWatcher;
+import android.text.TextWatcher;
         import android.util.Log;
         import android.view.Menu;
         import android.view.MenuInflater;
@@ -44,7 +43,7 @@ import android.text.InputFilter;
         import android.widget.Toast;
 
         import com.bumptech.glide.Glide;
-        import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
         import com.google.android.gms.auth.api.Auth;
         import com.google.android.gms.common.ConnectionResult;
