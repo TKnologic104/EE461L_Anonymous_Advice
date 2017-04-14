@@ -69,9 +69,10 @@ public class LandingActivity extends AppCompatActivity {
 
         String temp = mDatabaseReference.push().getKey();
         System.out.println(getIntent().getStringExtra("userId")+" "+getIntent().getStringExtra("email"));
+
         ChatChannel channel =  new ChatChannel(temp,
                 new User(getIntent().getStringExtra("userId"),
-                         getIntent().getStringExtra("email")));
+                         getIntent().getStringExtra("userEmail")));
 
         mDatabaseReference.child(temp).setValue(channel);
 

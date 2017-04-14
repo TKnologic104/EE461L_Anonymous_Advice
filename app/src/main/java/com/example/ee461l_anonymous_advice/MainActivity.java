@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private DatabaseReference mDatabaseReference;
 
     //FriendlyChat's variables
     private static final String TAG = "MainActivity";
@@ -74,8 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // Firebase instance variables
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
-    // Firebase instance variables
-    private DatabaseReference mFirebaseDatabaseReference;
 //    private FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder>
 //            mFirebaseAdapter;
 
@@ -132,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (mFirebaseUser.getPhotoUrl() != null) {
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
-            addUserToDB();
         }
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
@@ -152,16 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void addUserToDB()
-    {
-        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
 
-        tempId = mDatabaseReference.push().getKey();
-
-        user =  new User(tempId,mFirebaseUser.getEmail());
-
-        mDatabaseReference.child(tempId).setValue(user);
-    }
 
     public void showNotification(View v) {
         //Uses the builder design Pattern for implementation a notification system.

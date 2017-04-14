@@ -36,7 +36,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -48,14 +51,25 @@ public class SignInActivity extends AppCompatActivity implements
 
     private GoogleApiClient mGoogleApiClient;
 
+    private User user;
+    private String tempId;
+
+
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private DatabaseReference mDatabaseReference;
+
+    //Intent to go to landing
+    Intent gotoLanding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        //initializing intent
+        gotoLanding= new Intent(this,LandingActivity.class);
         // Assign fields
         mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
 
@@ -74,6 +88,7 @@ public class SignInActivity extends AppCompatActivity implements
 
         // Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
     }
 
     @Override
@@ -125,11 +140,31 @@ public class SignInActivity extends AppCompatActivity implements
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            startActivity(new Intent(SignInActivity.this, LandingActivity.class));
+                            addUserToDB();
+                            startActivity(gotoLanding);
                             finish();
                         }
                     }
                 });
+    }
+
+    public void addUserToDB()
+    {
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
+
+        tempId = mDatabaseReference.push().getKey();
+        if (mFirebaseUser == null) {
+            Log.e(TAG,"User was not signed in cannot" +
+                    "be added to DB");
+            return;
+        }
+        user =  new User(tempId,mFirebaseUser.getEmail());
+
+        mDatabaseReference.child(tempId).setValue(user);
+        //updating intent
+        gotoLanding.putExtra("userId", tempId);
+        gotoLanding.putExtra("userEmail", mFirebaseUser.getEmail());
+
     }
 
     @Override
