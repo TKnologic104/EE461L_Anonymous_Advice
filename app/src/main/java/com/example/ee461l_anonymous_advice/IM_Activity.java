@@ -114,9 +114,13 @@ public class IM_Activity extends AppCompatActivity
     private static final String LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif";
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 10;
     public static final String ANONYMOUS = "anonymous";
+    public static final String CHANNEL = "ChatChannel";
     private static final String MESSAGE_SENT_EVENT = "message_sent";
     private String mUsername;
     private String mPhotoUrl;
+
+    private String channelref;
+
     private SharedPreferences mSharedPreferences;
     private GoogleApiClient mGoogleApiClient;
     private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
@@ -147,27 +151,27 @@ public class IM_Activity extends AppCompatActivity
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Set default username is anonymous.
         mUsername = ANONYMOUS;
-
+        //todo update user availability in DB
 
         // Initialize Firebase Remote Config.
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
-// Define Firebase Remote Config Settings.
+        // Define Firebase Remote Config Settings.
         FirebaseRemoteConfigSettings firebaseRemoteConfigSettings =
                 new FirebaseRemoteConfigSettings.Builder()
                         .setDeveloperModeEnabled(true)
                         .build();
 
-// Define default config values. Defaults are used when fetched config values are not
-// available. Eg: if an error occurred fetching values from the server.
+        // Define default config values. Defaults are used when fetched config values are not
+        // available. Eg: if an error occurred fetching values from the server.
         Map<String, Object> defaultConfigMap = new HashMap<>();
         defaultConfigMap.put("friendly_msg_length", 10L);
 
-// Apply config settings and default values.
+        // Apply config settings and default values.
         mFirebaseRemoteConfig.setConfigSettings(firebaseRemoteConfigSettings);
         mFirebaseRemoteConfig.setDefaults(defaultConfigMap);
 
-// Fetch remote config.
+        // Fetch remote config.
         fetchConfig();
 
 
@@ -206,12 +210,16 @@ public class IM_Activity extends AppCompatActivity
 
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        //------------------
+        channelref = getIntent().getStringExtra("ChannelId");
+        //------------------
         mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage,
                 MessageViewHolder>(
                 FriendlyMessage.class,
                 R.layout.item_message,
                 MessageViewHolder.class,
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)) {
+                mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref)){
 
 //            @Override
 //            protected FriendlyMessage parseSnapshot(DataSnapshot snapshot) {
@@ -331,7 +339,7 @@ public class IM_Activity extends AppCompatActivity
                         mUsername,
                         mPhotoUrl,
                         null /* no image */);
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref)
                         .push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
             }
@@ -364,7 +372,7 @@ public class IM_Activity extends AppCompatActivity
 
                     FriendlyMessage tempMessage = new FriendlyMessage(null, mUsername, mPhotoUrl,
                             LOADING_IMAGE_URL);
-                    mFirebaseDatabaseReference.child(MESSAGES_CHILD).push()
+                    mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref).push()
                             .setValue(tempMessage, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(DatabaseError databaseError,
@@ -404,7 +412,7 @@ public class IM_Activity extends AppCompatActivity
                                             mPhotoUrl,
                                             task.getResult().getMetadata().getDownloadUrl()
                                                     .toString());
-                            mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
+                            mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref).child(key)
                                     .setValue(friendlyMessage);
                         } else {
                             Log.w(TAG, "Image upload task was not successful.",

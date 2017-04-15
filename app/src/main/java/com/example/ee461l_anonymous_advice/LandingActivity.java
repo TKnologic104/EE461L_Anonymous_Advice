@@ -76,7 +76,6 @@ public class LandingActivity extends AppCompatActivity {
         createUserList();
         createChatChannelDB(gotoChat);
         startActivity(gotoChat);
-        //TODO: Full networking functionality, also pass problem statement.
     }
 
     //debbuging method
@@ -130,6 +129,12 @@ public class LandingActivity extends AppCompatActivity {
         gotoChat.putExtra("UserId",userId);
 
         mDatabaseReference.child(temp).setValue(channel);
+
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("ChatChannelMessages");
+        FriendlyMessage emptymssg = new FriendlyMessage("emptyyy","Anonymous",null,null);
+        mDatabaseReference.child(temp).push().setValue(emptymssg);
+        FriendlyMessage emptymssg1 = new FriendlyMessage("othermessage","Anonymous",null,null);
+        mDatabaseReference.child(temp).push().setValue(emptymssg1);
 
     }
 

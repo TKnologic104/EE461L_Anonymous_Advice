@@ -15,20 +15,23 @@ public class ChatChannel  {
 
     Boolean isLocked;
 
-    List<FriendlyMessage> messages;
+//    List<Message> messages;
 
     ChatChannel(String id, User advisee)
     {
         this.id=id;
         this.advisee=advisee;
         isLocked=false;
-        messages= new ArrayList<>();
+   //     messages= new ArrayList<>();
+  //      messages.add(new Message("anonymous","emptyy"));
     }
 
-    public void addMessage(FriendlyMessage message)
+    /*
+    public void addMessage(Message message)
     {
         messages.add(message);
     }
+    */
 
     public void addAdviser(User adviser)
     {
