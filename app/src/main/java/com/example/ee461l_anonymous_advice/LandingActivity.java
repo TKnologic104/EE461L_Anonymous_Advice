@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,8 +13,16 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 //import com.example.tk_whatsappclone.R;
 
@@ -26,7 +35,12 @@ public class LandingActivity extends AppCompatActivity {
     private Button friends;
     public String problemStatement;
 
+    public static final String USER = "User";
+
     private DatabaseReference mDatabaseReference;
+    private DatabaseReference mUserDatabaseReference;
+
+    public ArrayList<String> userIdArrayList = new ArrayList<>();
 
 
     @Override
@@ -59,20 +73,61 @@ public class LandingActivity extends AppCompatActivity {
     public void search(View v){
         problemStatement = (String)problem.getText().toString();
         Intent gotoChat = new Intent(this, IM_Activity.class);
-        createChatChannelDB();
+        createUserList();
+        createChatChannelDB(gotoChat);
         startActivity(gotoChat);
         //TODO: Full networking functionality, also pass problem statement.
     }
 
-    public void createChatChannelDB(){
+    //debbuging method
+    private void printUserList(){
+        System.out.println("-------------------------");
+        for(String i:userIdArrayList)
+        {
+            System.out.println(i);
+        }
+        System.out.println("-------------------------");
+    }
+
+    public void createUserList(){
+        mUserDatabaseReference = FirebaseDatabase.getInstance().getReference(USER);
+
+        mUserDatabaseReference.addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        userIdArrayList.clear();
+                        for(DataSnapshot i: dataSnapshot.getChildren())
+                        {
+                            String temp = i.getValue(User.class).id;
+                            userIdArrayList.add(temp);
+                        }
+                        printUserList();
+                    //have to include code here to send notifications cannot do it else where
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("LandingActivity","Could not get datareference for value event");
+                    }
+                }
+        );
+    }
+
+
+    public void createChatChannelDB(Intent gotoChat){
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference("ChatChannel");
 
         String temp = mDatabaseReference.push().getKey();
-        System.out.println(getIntent().getStringExtra("userId")+" "+getIntent().getStringExtra("email"));
 
         ChatChannel channel =  new ChatChannel(temp,
                 new User(getIntent().getStringExtra("userId"),
                          getIntent().getStringExtra("userEmail")));
+
+        //passing the Channel and Advisee id to the IM_activity
+        String userId=getIntent().getStringExtra("userId");
+        gotoChat.putExtra("ChannelId",temp);
+        gotoChat.putExtra("UserId",userId);
 
         mDatabaseReference.child(temp).setValue(channel);
 

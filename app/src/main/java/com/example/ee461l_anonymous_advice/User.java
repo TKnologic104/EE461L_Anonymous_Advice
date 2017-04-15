@@ -9,17 +9,23 @@ import java.util.List;
 
 public class User {
 
-    String email;
-    String id;
+    public String email;
+    public String id;
 
-    Boolean  available;
-    Boolean banned;
+    public Boolean  available;
+    public Boolean banned;
 
-    Integer rating;
+    public Integer rating;
 
-    List<String> reasons;
+    public List<String> reasons;
 
+    public User(){}
 
+    //this constructor is only called when retrieving from database
+    public User(User user)
+    {
+        id=user.id;
+    }
     public User(String id,String email)
     {
         this.id=id;
@@ -53,4 +59,9 @@ public class User {
         banned=true;
     }
 
+    @Override
+    public String toString()
+    {
+        return email+"  " +id;
+    }
 }

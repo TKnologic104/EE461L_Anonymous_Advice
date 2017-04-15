@@ -108,6 +108,7 @@ public class IM_Activity extends AppCompatActivity
 
     private static final String TAG = "IM_Activity";
     public static final String MESSAGES_CHILD = "messages";
+    public static final String CHANNEL_CHILD = "ChatChannel";
     private static final int REQUEST_INVITE = 1;
     private static final int REQUEST_IMAGE = 2;
     private static final String LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif";
@@ -203,12 +204,6 @@ public class IM_Activity extends AppCompatActivity
         //mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
         //mMessageRecyclerView.setLayoutManager(new LinearLayoutManager(mMessageRecyclerView.getContext()));
 
-
-
-
-
-
-
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage,
@@ -236,7 +231,7 @@ public class IM_Activity extends AppCompatActivity
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
                     viewHolder.messageImageView.setVisibility(ImageView.GONE);
-                } else {
+                } else {//getting the image of the user
                     String imageUrl = friendlyMessage.getImageUrl();
                     if (imageUrl.startsWith("gs://")) {
                         StorageReference storageReference = FirebaseStorage.getInstance()
@@ -404,7 +399,9 @@ public class IM_Activity extends AppCompatActivity
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()) {
                             FriendlyMessage friendlyMessage =
-                                    new FriendlyMessage(null, mUsername, mPhotoUrl,
+                                    new FriendlyMessage(null,
+                                            mUsername,
+                                            mPhotoUrl,
                                             task.getResult().getMetadata().getDownloadUrl()
                                                     .toString());
                             mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)

@@ -15,7 +15,7 @@ public class ChatChannel  {
 
     Boolean isLocked;
 
-    List<Message> messages;
+    List<FriendlyMessage> messages;
 
     ChatChannel(String id, User advisee)
     {
@@ -25,7 +25,7 @@ public class ChatChannel  {
         messages= new ArrayList<>();
     }
 
-    public void addMessage(Message message)
+    public void addMessage(FriendlyMessage message)
     {
         messages.add(message);
     }
