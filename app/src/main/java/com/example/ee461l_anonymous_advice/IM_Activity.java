@@ -96,7 +96,7 @@ public class IM_Activity extends AppCompatActivity
         public ImageView messageImageView;
         public TextView messengerTextView;
         public CircleImageView messengerImageView;
-
+//herro
         public MessageViewHolder(View v) {
             super(v);
             messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
