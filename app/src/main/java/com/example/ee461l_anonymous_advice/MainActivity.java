@@ -24,6 +24,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQ_CODE = 9901;
     private Button gotoLanding;
     private Button gotoFAQ;
+    private User user;
+
+    private String tempId;
 
     //Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -69,8 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // Firebase instance variables
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
-    // Firebase instance variables
-    private DatabaseReference mFirebaseDatabaseReference;
 //    private FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder>
 //            mFirebaseAdapter;
 
@@ -128,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
         }
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
@@ -146,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+
 
     public void showNotification(View v) {
         //Uses the builder design Pattern for implementation a notification system.
@@ -183,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent gotoLanding = new Intent(this, com.example.ee461l_anonymous_advice.LandingActivity.class);
         gotoLanding.putExtra("username", tempName);
         gotoLanding.putExtra("userEmail", tempEmail);
+        gotoLanding.putExtra("email",mFirebaseUser.getEmail());
+        gotoLanding.putExtra("userId",tempId);
         startActivity(gotoLanding);
     }
 
@@ -209,21 +214,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-//    private void signOut(){
-//        googleApiClient.disconnect();
-//        Toast.makeText(MainActivity.this, "user Disconnected", Toast.LENGTH_LONG).show();
-//        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
-//            @Override
-//            public void onResult(@NonNull Status status) {
-//                Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
-//                Intent googleLogout = new Intent(getApplicationContext(), LoginActivity.class);
-//                startActivity(googleLogout);
-//            }
-//        });
-//    }
-//    private void handleResult(GoogleSignInResult result){
-//
-//    }
 
 
 }

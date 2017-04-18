@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-
+//comment
 public class RateAdvice extends AppCompatActivity {
     private Button submitButton;
     private  SeekBar seekBar;

@@ -29,8 +29,7 @@ import android.text.InputFilter;
         import android.support.v7.widget.LinearLayoutManager;
         import android.support.v7.widget.RecyclerView;
         import android.text.Editable;
-        import android.text.InputFilter;
-        import android.text.TextWatcher;
+import android.text.TextWatcher;
         import android.util.Log;
         import android.view.Menu;
         import android.view.MenuInflater;
@@ -44,7 +43,7 @@ import android.text.InputFilter;
         import android.widget.Toast;
 
         import com.bumptech.glide.Glide;
-        import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
         import com.google.android.gms.auth.api.Auth;
         import com.google.android.gms.common.ConnectionResult;
@@ -97,7 +96,7 @@ public class IM_Activity extends AppCompatActivity
         public ImageView messageImageView;
         public TextView messengerTextView;
         public CircleImageView messengerImageView;
-
+//herro
         public MessageViewHolder(View v) {
             super(v);
             messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
@@ -109,14 +108,19 @@ public class IM_Activity extends AppCompatActivity
 
     private static final String TAG = "IM_Activity";
     public static final String MESSAGES_CHILD = "messages";
+    public static final String CHANNEL_CHILD = "ChatChannel";
     private static final int REQUEST_INVITE = 1;
     private static final int REQUEST_IMAGE = 2;
     private static final String LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif";
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 10;
     public static final String ANONYMOUS = "anonymous";
+    public static final String CHANNEL = "ChatChannel";
     private static final String MESSAGE_SENT_EVENT = "message_sent";
     private String mUsername;
     private String mPhotoUrl;
+
+    private String channelref;
+
     private SharedPreferences mSharedPreferences;
     private GoogleApiClient mGoogleApiClient;
     private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
@@ -147,27 +151,27 @@ public class IM_Activity extends AppCompatActivity
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Set default username is anonymous.
         mUsername = ANONYMOUS;
-
+        //todo update user availability in DB
 
         // Initialize Firebase Remote Config.
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
-// Define Firebase Remote Config Settings.
+        // Define Firebase Remote Config Settings.
         FirebaseRemoteConfigSettings firebaseRemoteConfigSettings =
                 new FirebaseRemoteConfigSettings.Builder()
                         .setDeveloperModeEnabled(true)
                         .build();
 
-// Define default config values. Defaults are used when fetched config values are not
-// available. Eg: if an error occurred fetching values from the server.
+        // Define default config values. Defaults are used when fetched config values are not
+        // available. Eg: if an error occurred fetching values from the server.
         Map<String, Object> defaultConfigMap = new HashMap<>();
         defaultConfigMap.put("friendly_msg_length", 10L);
 
-// Apply config settings and default values.
+        // Apply config settings and default values.
         mFirebaseRemoteConfig.setConfigSettings(firebaseRemoteConfigSettings);
         mFirebaseRemoteConfig.setDefaults(defaultConfigMap);
 
-// Fetch remote config.
+        // Fetch remote config.
         fetchConfig();
 
 
@@ -204,20 +208,18 @@ public class IM_Activity extends AppCompatActivity
         //mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
         //mMessageRecyclerView.setLayoutManager(new LinearLayoutManager(mMessageRecyclerView.getContext()));
 
-
-
-
-
-
-
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        //------------------
+        channelref = getIntent().getStringExtra("ChannelId");
+        //------------------
         mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage,
                 MessageViewHolder>(
                 FriendlyMessage.class,
                 R.layout.item_message,
                 MessageViewHolder.class,
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)) {
+                mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref)){
 
 //            @Override
 //            protected FriendlyMessage parseSnapshot(DataSnapshot snapshot) {
@@ -237,7 +239,7 @@ public class IM_Activity extends AppCompatActivity
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
                     viewHolder.messageImageView.setVisibility(ImageView.GONE);
-                } else {
+                } else {//getting the image of the user
                     String imageUrl = friendlyMessage.getImageUrl();
                     if (imageUrl.startsWith("gs://")) {
                         StorageReference storageReference = FirebaseStorage.getInstance()
@@ -337,21 +339,21 @@ public class IM_Activity extends AppCompatActivity
                         mUsername,
                         mPhotoUrl,
                         null /* no image */);
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref)
                         .push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
             }
         });
-        mAddMessageImageView = (ImageView) findViewById(R.id.addMessageImageView);
-        mAddMessageImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                startActivityForResult(intent, REQUEST_IMAGE);
-            }
-        });
+        //mAddMessageImageView = (ImageView) findViewById(R.id.addMessageImageView);
+//        mAddMessageImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onCliccck(View view) {
+//                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//                intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                intent.setType("image/*");
+//                startActivityForResult(intent, REQUEST_IMAGE);
+//            }
+//        });
 
 
     }
@@ -370,7 +372,7 @@ public class IM_Activity extends AppCompatActivity
 
                     FriendlyMessage tempMessage = new FriendlyMessage(null, mUsername, mPhotoUrl,
                             LOADING_IMAGE_URL);
-                    mFirebaseDatabaseReference.child(MESSAGES_CHILD).push()
+                    mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref).push()
                             .setValue(tempMessage, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(DatabaseError databaseError,
@@ -405,10 +407,12 @@ public class IM_Activity extends AppCompatActivity
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()) {
                             FriendlyMessage friendlyMessage =
-                                    new FriendlyMessage(null, mUsername, mPhotoUrl,
+                                    new FriendlyMessage(null,
+                                            mUsername,
+                                            mPhotoUrl,
                                             task.getResult().getMetadata().getDownloadUrl()
                                                     .toString());
-                            mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
+                            mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref).child(key)
                                     .setValue(friendlyMessage);
                         } else {
                             Log.w(TAG, "Image upload task was not successful.",
@@ -444,12 +448,12 @@ public class IM_Activity extends AppCompatActivity
         super.onDestroy();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.main_menu, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
