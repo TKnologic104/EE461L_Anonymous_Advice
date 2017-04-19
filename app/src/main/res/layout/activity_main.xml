@@ -130,6 +130,15 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"/>
 
+
+            <Button
+                android:id="@+id/bn_popup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="gotoPopUp"
+                android:text="PopUp" />
+
         </LinearLayout>
 
         <LinearLayout

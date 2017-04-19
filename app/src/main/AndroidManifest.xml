@@ -56,10 +56,10 @@
         <activity android:name=".RateAdvice">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
+
         <activity android:name=".ReportReasons">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -67,6 +67,7 @@
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SecondClass"
             android:label="@string/app_name">
@@ -76,6 +77,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <!-- <activity android:name="com.example.ee461l_anonymous_advice.LandingActivity" /> -->
         <!-- <activity android:name="com.example.ee461l_anonymous_advice.MainActivity"></activity> -->
 
@@ -86,6 +88,7 @@
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
+
         <activity android:name=".IM_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -93,6 +96,10 @@
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".PopUpActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"           />
 
         <!-- Firebase Notification stuff -->
         <service android:name=".MyFirebaseMessagingService">
@@ -111,6 +118,7 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
+
 
     </application>
 

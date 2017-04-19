@@ -8,19 +8,27 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.appindexing.Action;
+import com.google.firebase.appindexing.FirebaseUserActions;
+import com.google.firebase.appindexing.builders.Actions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQ_CODE = 9901;
     private Button gotoLanding;
     private Button gotoFAQ;
+    private Button gotoPopUp;
     private User user;
 
     private String tempId;
@@ -114,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SignOut.setOnClickListener(this);
         gotoLanding = (Button) findViewById(R.id.bn_landing);
         gotoFAQ = (Button) findViewById(R.id.bn_faq);
+        gotoPopUp = (Button) findViewById(R.id.bn_popup);
+
 
 
         // Initialize Firebase Auth
@@ -183,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void gotoLanding(View v) {
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
-        Intent gotoLanding = new Intent(this, com.example.ee461l_anonymous_advice.LandingActivity.class);
+        Intent gotoLanding = new Intent(this, LandingActivity.class);
         gotoLanding.putExtra("username", tempName);
         gotoLanding.putExtra("userEmail", tempEmail);
         gotoLanding.putExtra("email",mFirebaseUser.getEmail());
@@ -194,11 +205,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void gotoFAQ(View v) {
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
-        Intent gotoFAQ = new Intent(this, com.example.ee461l_anonymous_advice.FAQ.class);
+        Intent gotoFAQ = new Intent(this, FAQ.class);
         gotoFAQ.putExtra("username", tempName);
         gotoFAQ.putExtra("userEmail", tempEmail);
         startActivity(gotoFAQ);
     }
+
+
+
+    public void gotoPopUp(View v) {
+//        String tempName = (getIntent().getStringExtra("username"));
+//        String tempEmail = (getIntent().getStringExtra("userEmail"));
+//        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
+//        gotoPopUp.putExtra("username", tempName);
+//        gotoPopUp.putExtra("userEmail", tempEmail);
+//        startActivity(gotoPopUp);
+
+        PopUpActivity popUp = new PopUpActivity();
+        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
+        startActivity(gotoPopUp);
+    }
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -215,6 +242,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        return Actions.newView("Main", "http://[ENTER-YOUR-URL-HERE]");
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        FirebaseUserActions.getInstance().start(getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        FirebaseUserActions.getInstance().end(getIndexApiAction());
+        super.onStop();
+    }
 }
 
