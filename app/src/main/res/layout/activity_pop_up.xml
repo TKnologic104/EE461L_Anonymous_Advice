@@ -12,79 +12,74 @@
     tools:context="com.example.ee461l_anonymous_advice.PopUpActivity">
 
     <LinearLayout
-        android:id="@+id/layout_FAQ_title"
+        android:id="@+id/layout_popup_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="top"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="10dp"
-        >
+        android:gravity="top"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
         <TextView
-            android:id="@+id/FAQ_title"
+            android:id="@+id/PopUp_Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Frequently Asked Questions"
+            android:paddingBottom="5dp"
+            android:text="Hey! Someone needs an advice:"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingBottom="5dp"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_problem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_above="@+id/layout_popup_buttons"
+        android:layout_below="@id/layout_popup_title"
         android:layout_centerHorizontal="true"
-        android:id="@+id/layout_FAQ_scroll"
-        android:layout_below="@id/layout_FAQ_title"
-        android:layout_above="@+id/layout_FAQ_button"
-        >
+        android:orientation="horizontal">
 
-        <ScrollView
-            android:id="@+id/FAQ_scroll"
+        <TextView
+
+            android:id="@+id/FAQ_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerInParent="true"
-            android:scrollIndicators="right"
-            android:scrollbars="vertical">
+            android:text="@string/problem"
+            android:textAlignment="center"
+            android:textSize="12sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-
-                    android:id="@+id/FAQ_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/faq_text"
-                    android:textAlignment="center"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-        </ScrollView>
 
     </LinearLayout>
+
     <LinearLayout
-        android:id="@+id/layout_FAQ_button"
+        android:id="@+id/layout_popup_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
         <!--android:layout_below="@id/layout_FAQ_scroll"-->
 
 
         <Button
-            android:id="@+id/FAQ_button"
-            android:layout_width="match_parent"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:textColor="#ffffff"
+            android:id="@+id/popup_button_ignore"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginTop="0dp"
-            android:text="Return to Profile Page"/>
+            android:text="Ignore" />
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:textColor="#ffffff"
+            android:id="@+id/popup_button_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="Accept" />
 
     </LinearLayout>
 

@@ -10,52 +10,12 @@
     <LinearLayout
         android:id="@+id/prof_section"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/prof_pic"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/photo" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Name Display Here"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/gmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="Email Display Here"
-                    android:textSize="14sp"
-                    android:textStyle="italic" />
-
-            </LinearLayout>
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,25 +24,45 @@
             android:orientation="vertical"
             android:layout_marginTop="10dp">
 
-            <Button
-                android:id="@+id/bn_notif"
-                android:layout_marginTop="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:onClick="showNotification"
-                android:text="Show Notification" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp">
 
                 <TextView
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Name Display Here"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/gmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="Email Display Here"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:text="Your Rating: "
                     android:textSize="18sp"
                     android:textStyle="bold"/>
@@ -91,8 +71,10 @@
                     android:id="@+id/rating_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:text="@string/rating_value"
                     android:textSize="18sp"/>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -101,7 +83,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -121,9 +104,13 @@
 
 
             <Button
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12dp"
+                android:background="@drawable/button_selector"
                 android:id="@+id/bn_faq"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_gravity="center_horizontal"
                 android:text="FAQ"
                 android:onClick="gotoFAQ"
@@ -132,12 +119,15 @@
 
 
             <Button
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12dp"
+                android:background="@drawable/button_selector"
                 android:id="@+id/bn_popup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:onClick="gotoPopUp"
-                android:text="PopUp" />
+                android:text="PopUp"/>
 
         </LinearLayout>
 
@@ -146,9 +136,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
 
             <Button
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12dp"
+                android:background="@drawable/button_selector"
                 android:id="@+id/bn_landing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,6 +153,9 @@
                 android:paddingRight="35dp"/>
 
             <Button
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12dp"
+                android:background="@drawable/button_selector"
                 android:id="@+id/bn_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -166,7 +163,7 @@
                 android:text="Logout"
                 android:layout_marginLeft="10dp"
                 android:paddingLeft="35dp"
-                android:paddingRight="35dp"/>
+                android:paddingRight="35dp" />
 
 
 

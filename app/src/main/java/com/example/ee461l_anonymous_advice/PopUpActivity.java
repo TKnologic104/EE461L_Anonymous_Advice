@@ -18,10 +18,16 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+
+
 
 
 public class PopUpActivity extends AppCompatActivity{
 
+    private Button ignoreButton;
+    private Button acceptButton;
+    private TextView problem;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,4 +40,6 @@ public class PopUpActivity extends AppCompatActivity{
         params.y = -10;
         this.getWindow().setAttributes(params);
     }
+
+
 }

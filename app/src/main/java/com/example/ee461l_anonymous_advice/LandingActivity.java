@@ -50,7 +50,7 @@ public class LandingActivity extends AppCompatActivity {
         profile = (Button)findViewById(R.id.bn_profile);
         problem = (EditText)findViewById(R.id.problemText);
         search = (Button)findViewById(R.id.bn_search);
-        friends = (Button)findViewById(R.id.bn_friends);
+        //friends = (Button)findViewById(R.id.bn_friends);
         charCount = (TextView)findViewById(R.id.charCountValue);
 
         problem.addTextChangedListener(mTextEditorWatcher);

@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SignOut = (Button) findViewById(R.id.bn_logout);
         Name = (TextView) findViewById(R.id.name);
         Gmail = (TextView) findViewById(R.id.gmail);
-        Prof_Pic = (ImageView) findViewById(R.id.prof_pic);
+       // Prof_Pic = (ImageView) findViewById(R.id.prof_pic);
         SignOut.setOnClickListener(this);
         gotoLanding = (Button) findViewById(R.id.bn_landing);
         gotoFAQ = (Button) findViewById(R.id.bn_faq);

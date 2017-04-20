@@ -12,18 +12,23 @@
 
     <LinearLayout
 
+        android:id="@+id/layout_landing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/bn_profile"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="12dp"
+            android:background="@drawable/button_selector"
+            android:onClick="gotoProfile"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:onClick="gotoProfile"
             android:text="Profile" />
 
         <EditText
@@ -62,20 +67,28 @@
             android:layout_height="0dip"
             android:layout_weight="1"
             android:gravity="center|bottom"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <Button
+                
                 android:id="@+id/bn_search"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal|center"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/button_selector"
+                android:backgroundTint="@color/colorPrimary"
                 android:gravity="center"
                 android:onClick="search"
-                android:layout_marginBottom="20dp"
-                android:text="Find Advice Giver" />
+                android:padding="10dp"
+                android:text="Find Advice Giver"
+                android:textColor="#ffffff"
+                android:textSize="12dp"
+                android:textStyle="bold" />
 
-            <Button
+            <!--    <Button
                 android:id="@+id/bn_friends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -86,9 +99,11 @@
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:onClick="gotoFriends"
-                android:text="Friend List" />
+                android:text="Friend List" /> -->
 
         </LinearLayout>
+
+
     </LinearLayout>
 
 </RelativeLayout>
