@@ -85,7 +85,7 @@
                 android:padding="10dp"
                 android:text="Find Advice Giver"
                 android:textColor="#ffffff"
-                android:textSize="12dp"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <!--    <Button

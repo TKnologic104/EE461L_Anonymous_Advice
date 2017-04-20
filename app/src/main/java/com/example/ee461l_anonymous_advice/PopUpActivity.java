@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
@@ -39,6 +40,32 @@ public class PopUpActivity extends AppCompatActivity{
         params.width = 400;
         params.y = -10;
         this.getWindow().setAttributes(params);
+        this.setFinishOnTouchOutside(true);
+
+       // problem.setText(getIntent().getStringExtra("problem"));
+
+        ignoreButton = (Button)findViewById(R.id.popup_button_ignore);
+        acceptButton = (Button)findViewById(R.id.popup_button_accept);
+
+        ignoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //close and go to activity the user was previously before this was called
+
+                finish();
+            }
+        });
+
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO Chat intent here and stuff
+                Intent goToProfile = new Intent(PopUpActivity.this, LandingActivity.class);
+                startActivity(goToProfile);
+
+            }
+        });
     }
 
 
