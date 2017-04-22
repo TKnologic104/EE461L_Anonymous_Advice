@@ -38,8 +38,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SignInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -62,6 +65,8 @@ public class SignInActivity extends AppCompatActivity implements
 
     //Intent to go to landing
     Intent gotoLanding;
+
+    private Boolean isUserDB=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,19 +157,43 @@ public class SignInActivity extends AppCompatActivity implements
     {
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
 
+        mDatabaseReference.addValueEventListener(
+           new ValueEventListener(){
+
+               @Override
+               public void onDataChange(DataSnapshot dataSnapshot) {
+                   for (DataSnapshot i: dataSnapshot.getChildren())
+                   {
+                       if (i.getValue(User.class).email.equals(mFirebaseUser.getEmail()))
+                            isUserDB=true;
+                   }
+               }
+
+               @Override
+               public void onCancelled(DatabaseError databaseError) {
+
+               }
+           });
+
+
         tempId = mDatabaseReference.push().getKey();
         if (mFirebaseUser == null) {
             Log.e(TAG,"User was not signed in cannot" +
                     "be added to DB");
             return;
         }
-        user =  new User(tempId,mFirebaseUser.getEmail());
+        if (!isUserDB) {
+            user = new User(tempId, mFirebaseUser.getEmail());
 
-        mDatabaseReference.child(tempId).setValue(user);
+            mDatabaseReference.child(tempId).setValue(user);
+        }
+        else {
+            Log.d("SignInActivity","User is in the DataBase woop woop!");
+        }
+
         //updating intent
         gotoLanding.putExtra("userId", tempId);
         gotoLanding.putExtra("userEmail", mFirebaseUser.getEmail());
-
     }
 
     @Override
