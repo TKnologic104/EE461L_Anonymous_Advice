@@ -45,28 +45,37 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:label="Profile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
-        <activity android:name=".LandingActivity" />
-        <activity android:name=".RateAdvice">
+        <activity
+            android:name=".LandingActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".RateAdvice"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ReportReasons"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
-        <activity android:name=".ReportReasons">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            </intent-filter>
-        </activity>
         <activity
             android:name=".SecondClass"
             android:label="@string/app_name">
@@ -76,23 +85,50 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <!-- <activity android:name="com.example.ee461l_anonymous_advice.LandingActivity" /> -->
         <!-- <activity android:name="com.example.ee461l_anonymous_advice.MainActivity"></activity> -->
 
-        <activity android:name=".FAQ">
+        <activity android:name=".FAQ"
+            android:label="FAQ">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
-        <activity android:name=".IM_Activity">
+
+        <activity android:name=".IM_Activity"
+            android:label="Chat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".PopUpActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"           />
+
+        <!-- Firebase Notification stuff -->
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification_image" />
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
 
     </application>
 

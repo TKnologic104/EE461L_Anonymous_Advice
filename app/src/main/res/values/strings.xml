@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EE461L_Anonymous_Advice</string>
+    <string name="app_name">Anonymous Advice</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -14,7 +14,7 @@
         completions."
     </string>
     <string name="question">Question to be asked</string>
-    <string name="chat_activity">Chat Activity</string>
+    <string name="chat_activity">Chat</string>
     <string name="rate_advice">Rate Advice</string>
     <string name="rate_advice_text">On a scale of 1 to 10, how useful was this advice?</string>
     <string name="default_seekbar_content">0/10</string>
@@ -32,9 +32,10 @@
     <string name="invitation_message">Please join me for a friendly chat</string>
     <string name="invitation_cta">Call to action</string>
     <string name="invitation_title">Friendly Chat Invite</string>
-    <string name="sign_in">Sign In</string>
+    <string name="sign_in">Anonymous Advice</string>
     <string name="sign_up">Sign Up</string>
     <string name="fresh_config">Fresh Config</string>
     <string name="cause_crash">Cause Crash</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="problem">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</string>
 </resources>

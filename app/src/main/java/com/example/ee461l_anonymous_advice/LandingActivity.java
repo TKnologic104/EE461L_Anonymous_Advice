@@ -192,6 +192,7 @@ public class LandingActivity extends AppCompatActivity {
         );
     }
 
+
     public void createChatChannelDB(Intent gotoChat){
 
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference("ChatChannel");

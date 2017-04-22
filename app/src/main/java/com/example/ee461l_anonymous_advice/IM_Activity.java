@@ -96,7 +96,7 @@ public class IM_Activity extends AppCompatActivity
         public ImageView messageImageView;
         public TextView messengerTextView;
         public CircleImageView messengerImageView;
-
+//herro
         public MessageViewHolder(View v) {
             super(v);
             messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
@@ -344,16 +344,16 @@ public class IM_Activity extends AppCompatActivity
                 mMessageEditText.setText("");
             }
         });
-        mAddMessageImageView = (ImageView) findViewById(R.id.addMessageImageView);
-        mAddMessageImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                startActivityForResult(intent, REQUEST_IMAGE);
-            }
-        });
+        //mAddMessageImageView = (ImageView) findViewById(R.id.addMessageImageView);
+//        mAddMessageImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onCliccck(View view) {
+//                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//                intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                intent.setType("image/*");
+//                startActivityForResult(intent, REQUEST_IMAGE);
+//            }
+//        });
 
 
     }
@@ -448,12 +448,12 @@ public class IM_Activity extends AppCompatActivity
         super.onDestroy();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.main_menu, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
