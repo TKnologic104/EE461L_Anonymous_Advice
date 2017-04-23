@@ -16,6 +16,7 @@ public class ChatChannel  {
     Boolean isLocked;
 
 //    List<Message> messages;
+    ChatChannel(){}
 
     ChatChannel(String id, User advisee)
     {

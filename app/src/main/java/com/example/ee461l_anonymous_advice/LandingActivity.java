@@ -253,7 +253,7 @@ public class LandingActivity extends AppCompatActivity {
         gotoChat.putExtra("ChannelId",channelId);
         gotoChat.putExtra("UserId",userId);
 
-        mDatabaseReference.setValue(channel);
+        mDatabaseReference.child(channelId).setValue(channel);
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("ChatChannelMessages");
         FriendlyMessage emptymssg = new FriendlyMessage("emptyyy","Anonymous",null,null);

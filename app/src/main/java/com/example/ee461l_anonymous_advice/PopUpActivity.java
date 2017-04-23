@@ -66,7 +66,7 @@ public class PopUpActivity extends AppCompatActivity{
         this.setFinishOnTouchOutside(true);
         String message =  getIntent().getStringExtra("message");
 
-        problem =  (TextView) findViewById(R.id.problemText);
+        problem =  (TextView) findViewById(R.id.problem);
 
         problem.setText(message);
 
@@ -76,15 +76,14 @@ public class PopUpActivity extends AppCompatActivity{
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         channelId = getIntent().getStringExtra("channelId");
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("ChatChannel");
 
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("ChatChannel");
         ChannelEventListener =  new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot i : dataSnapshot.getChildren() )
                 {
                     ChatChannel temp =  i.getValue(ChatChannel.class);
-
                     if (!temp.isLocked)
                         if (temp.id.equals(channelId))
                         {
