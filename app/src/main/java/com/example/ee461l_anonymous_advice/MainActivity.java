@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    //Firebase database variables
+    private DatabaseReference mUserRef;
 
     //FriendlyChat's variables
     private static final String TAG = "MainActivity";
@@ -187,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(MainActivity.this, "inside Onclick", Toast.LENGTH_LONG).show();
         signOut();
     }
 
@@ -236,7 +237,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFirebaseAuth.signOut();
         Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         mUsername = ANONYMOUS;
-        mFirebaseUser.delete();
+
+        mUserRef = FirebaseDatabase.getInstance().getReference("User");
+        String userId = getIntent().getStringExtra("userId");
+        mUserRef.child(userId).child("available").setValue(false);
+
         startActivity(new Intent(this, SignInActivity.class));
 
     }

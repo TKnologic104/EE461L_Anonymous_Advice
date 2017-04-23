@@ -149,9 +149,11 @@ public class LandingActivity extends AppCompatActivity {
         //TODO: create Profile Activity
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
+        String tempId = getIntent().getStringExtra("userId");
         Intent gotoProfile = new Intent(this, MainActivity.class);
         gotoProfile.putExtra("username",tempName);
         gotoProfile.putExtra("userEmail",tempEmail);
+        gotoProfile.putExtra("userId",tempId);
         startActivity(gotoProfile);
         //create intent to goto Profile
     }

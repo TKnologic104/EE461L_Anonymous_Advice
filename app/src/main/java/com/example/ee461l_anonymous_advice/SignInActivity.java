@@ -63,6 +63,8 @@ public class SignInActivity extends AppCompatActivity implements
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabaseReference;
 
+    //private EventListener
+    
     //Intent to go to landing
     Intent gotoLanding;
 
@@ -81,16 +83,6 @@ public class SignInActivity extends AppCompatActivity implements
         // Set click listeners
         mSignInButton.setOnClickListener(this);
 
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
         // Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -104,7 +96,12 @@ public class SignInActivity extends AppCompatActivity implements
                     User temp = i.getValue(User.class);
                     if (temp==null) break;
                     if (temp.email.equals(mFirebaseUser.getEmail()))
+                    {
+                        tempId=temp.id;
+                        gotoLanding.putExtra("userId", tempId);
+                        mDatabaseReference.child(tempId).child("available").setValue(true);
                         isUserDB=true;
+                    }
                 }
 
             }
@@ -114,6 +111,51 @@ public class SignInActivity extends AppCompatActivity implements
 
             }
         });
+
+
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot i:dataSnapshot.getChildren())
+                {
+                    User temp = i.getValue(User.class);
+                    if (temp==null) break;
+                    if (temp.email.equals(mFirebaseUser.getEmail()))
+                    {
+                        tempId=temp.id;
+                        gotoLanding.putExtra("userId", tempId);
+                        mDatabaseReference.child(tempId).child("available").setValue(true);
+                        isUserDB=true;
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
@@ -166,6 +208,7 @@ public class SignInActivity extends AppCompatActivity implements
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             addUserToDB();
+
                             startActivity(gotoLanding);
                             finish();
                         }
@@ -186,9 +229,11 @@ public class SignInActivity extends AppCompatActivity implements
             tempId = mDatabaseReference.push().getKey();
             user = new User(tempId, mFirebaseUser.getEmail());
             mDatabaseReference.child(tempId).setValue(user);
-            //updating intent
+            gotoLanding.putExtra("userId", tempId);
+                        //updating intent
         }
-        gotoLanding.putExtra("userId", tempId);
+
+
         gotoLanding.putExtra("userEmail", mFirebaseUser.getEmail());
 
     }
