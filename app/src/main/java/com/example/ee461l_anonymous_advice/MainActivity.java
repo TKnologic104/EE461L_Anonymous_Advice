@@ -170,11 +170,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setContentText("This is my first notification...");
         //we have to make an intent for starting the activity.
         //Intent gotoNoti = new Intent(this, SecondClass.class);
-        Intent gotoNoti = new Intent(this, LandingActivity.class);
+        //Intent gotoNoti = new Intent(this, LandingActivity.class);
         //the purpose of the stackuilder object is to return you to home screen
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(SecondClass.class);
-        stackBuilder.addNextIntent(gotoNoti);
+        //stackBuilder.addNextIntent(gotoNoti);
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         NotificationManager NM = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

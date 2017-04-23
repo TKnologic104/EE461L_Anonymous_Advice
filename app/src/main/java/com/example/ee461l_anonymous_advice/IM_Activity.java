@@ -131,6 +131,7 @@ public class IM_Activity extends AppCompatActivity
     private ProgressBar mProgressBar;
     private EditText mMessageEditText;
     private ImageView mAddMessageImageView;
+    private ImageView mCloseButton;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -344,17 +345,19 @@ public class IM_Activity extends AppCompatActivity
                 mMessageEditText.setText("");
             }
         });
-        //mAddMessageImageView = (ImageView) findViewById(R.id.addMessageImageView);
-//        mAddMessageImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onCliccck(View view) {
-//                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//                intent.addCategory(Intent.CATEGORY_OPENABLE);
-//                intent.setType("image/*");
-//                startActivityForResult(intent, REQUEST_IMAGE);
-//            }
-//        });
 
+        mCloseButton = (ImageView) findViewById(R.id.closeChatButton);
+        mCloseButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String user = getIntent().getStringExtra("tempId");
+                Intent gotoRate = new Intent(IM_Activity.this, RateAdvice.class);
+                gotoRate.putExtra("advisor", user);
+                startActivity(gotoRate);
+
+            }
+        });
 
     }
 

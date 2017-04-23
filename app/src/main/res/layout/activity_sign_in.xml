@@ -17,7 +17,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_width="200dp"
             android:layout_height="300dp"
-            android:src="@drawable/logo2"/>
+            android:src="@drawable/ic_launcher"/>
 
         <TextView
             android:layout_width="wrap_content"
