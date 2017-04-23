@@ -9,6 +9,8 @@ public class Invitation {
     String question;
     String AdviseeId;
 
+    public Invitation(){}
+
     public Invitation(String channelId, String question, String AdviseeId)
     {
         this.channelId=channelId;

@@ -81,6 +81,9 @@ public class LandingActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
+        //getting userId
+        tempId = getIntent().getStringExtra("userId");
+
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference("Invitation");
         invitationEventListener = new ValueEventListener() {
             @Override
@@ -239,7 +242,7 @@ public class LandingActivity extends AppCompatActivity {
     public void createChatChannelDB(Intent gotoChat){
 
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference("ChatChannel");
-        mDatabaseReference = mDatabaseReference.push();
+        channelId = mDatabaseReference.push().getKey();
 
         ChatChannel channel =  new ChatChannel(channelId,
                 new User(getIntent().getStringExtra("userId"),
