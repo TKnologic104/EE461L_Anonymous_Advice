@@ -78,17 +78,17 @@ public class PopUpActivity extends AppCompatActivity{
         channelId = getIntent().getStringExtra("channelId");
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("ChatChannel");
-        ChannelEventListener =  new ValueEventListener() {
+        mDatabaseReference.addValueEventListener( new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot i : dataSnapshot.getChildren() )
                 {
+
                     ChatChannel temp =  i.getValue(ChatChannel.class);
                     if (!temp.isLocked)
                         if (temp.id.equals(channelId))
                         {
-                            mDatabaseReference.child("ChatChannel").child(temp.id);
-                            mDatabaseReference.setValue(
+                            mDatabaseReference.child(temp.id).setValue(
                                     new ChatChannel(temp.advisee,
                                             new User(null,mFirebaseUser.getEmail()),
                                             channelId,true)
@@ -102,8 +102,8 @@ public class PopUpActivity extends AppCompatActivity{
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        };
-        mDatabaseReference.addValueEventListener(ChannelEventListener);
+        });
+        //mDatabaseReference.addValueEventListener(ChannelEventListener);
         if (mFirebaseUser==null)
         {
             Log.d("PopUpActivity", "Could not get email from " +
@@ -129,7 +129,8 @@ public class PopUpActivity extends AppCompatActivity{
                     e.printStackTrace();
                 }
 
-                Intent goToProfile = new Intent(PopUpActivity.this, LandingActivity.class);
+                Intent goToProfile = new Intent(PopUpActivity.this, IM_Activity.class);
+                goToProfile.putExtra("ChannelId",channelId);
                 startActivity(goToProfile);
 
             }
