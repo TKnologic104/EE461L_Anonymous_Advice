@@ -268,7 +268,7 @@ public class LandingActivity extends AppCompatActivity {
 
         invitationId = mDatabaseReference.push().getKey();
         tempId = getIntent().getStringExtra("userId");
-        Invitation invitation = new Invitation(channelId,problem.toString(),tempId);
+        Invitation invitation = new Invitation(channelId,problem.getText().toString(),tempId);
 
         mDatabaseReference.child(invitationId).setValue(invitation);
     }
