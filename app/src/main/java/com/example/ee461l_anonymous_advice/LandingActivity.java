@@ -2,11 +2,13 @@ package com.example.ee461l_anonymous_advice;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,8 +21,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sendbird.android.OpenChannel;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -37,35 +41,163 @@ public class LandingActivity extends AppCompatActivity {
 
     public static final String USER = "User";
 
-    private DatabaseReference mDatabaseReference;
+
+    //private DatabaseReference mDatabaseReference;
     private DatabaseReference mUserDatabaseReference;
 
     public ArrayList<String> userIdArrayList = new ArrayList<>();
+    public boolean popupflag;
 
+    private String channelId;
+    private String invitationId;
+
+
+    private ValueEventListener openChannels;
+
+    private Invitation receivedInvitation;
+
+    private DatabaseReference mDatabaseReference;
+
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private String tempId;
+
+    private ValueEventListener invitationEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        profile = (Button)findViewById(R.id.bn_profile);
-        problem = (EditText)findViewById(R.id.problemText);
-        search = (Button)findViewById(R.id.bn_search);
-        //friends = (Button)findViewById(R.id.bn_friends);
-        charCount = (TextView)findViewById(R.id.charCountValue);
+        profile = (Button) findViewById(R.id.bn_profile);
+        problem = (EditText) findViewById(R.id.problemText);
+        search = (Button) findViewById(R.id.bn_search);
+        //friends = (Button) findViewById(R.id.bn_friends);
+        charCount = (TextView) findViewById(R.id.charCountValue);
 
         problem.addTextChangedListener(mTextEditorWatcher);
+        //addValueEventListeners();
+        //valueevent listners
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
+        //getting userId
+        tempId = getIntent().getStringExtra("userId");
 
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("Invitation");
+        invitationEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
+                for (DataSnapshot i:dataSnapshot.getChildren())
+                {
+                    Invitation temp = i.getValue(Invitation.class);
+                    if (temp==null) break;
+                    if (!tempId.equals(temp.AdviseeId)) {
+                        Intent gotopopup = new Intent(LandingActivity.this, PopUpActivity.class);
+
+                        gotopopup.putExtra("channelId", temp.channelId);
+                        gotopopup.putExtra("message", temp.question);
+                        startActivity(gotopopup);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        mDatabaseReference.addValueEventListener(invitationEventListener);
+
+    }
+    //public InvitationAdapter(Callback ca)
+    private class InvitationChildEventListener implements ChildEventListener{
+
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            //Create pop-up
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            //remove from list
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            ///remove from local list
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            //not interested on moved
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    }
+    public void addValueEventListeners() {
+
+        mDatabaseReference.child("Invitation").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Invitation invitation = dataSnapshot.getValue(Invitation.class);
+                popupflag=true;
+                //invitation.message = R.id.poptext;
+                //create popup
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //mDatabaseReference.child("I")
+        //check if invitation is still there
+    }
+
+    private void createPopup()
+    {
+        DatabaseReference isLockedRef = mDatabaseReference.child("ChatChannel").child(receivedInvitation.channelId);
+        isLockedRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean isLocked = dataSnapshot.getValue(boolean.class);
+                if (isLocked)
+                {
+                    dissablePopUp();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void dissablePopUp()
+    {
+        //remove accept button
     }
 
     public void gotoProfile(View v){
         //TODO: create Profile Activity
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
+        String tempId = getIntent().getStringExtra("userId");
         Intent gotoProfile = new Intent(this, MainActivity.class);
         gotoProfile.putExtra("username",tempName);
         gotoProfile.putExtra("userEmail",tempEmail);
+        gotoProfile.putExtra("userId",tempId);
         startActivity(gotoProfile);
         //create intent to goto Profile
     }
@@ -73,19 +205,12 @@ public class LandingActivity extends AppCompatActivity {
     public void search(View v){
         problemStatement = (String)problem.getText().toString();
         Intent gotoChat = new Intent(this, IM_Activity.class);
+
         createUserList();
         createChatChannelDB(gotoChat);
-        startActivity(gotoChat);
-    }
 
-    //debbuging method
-    private void printUserList(){
-        System.out.println("-------------------------");
-        for(String i:userIdArrayList)
-        {
-            System.out.println(i);
-        }
-        System.out.println("-------------------------");
+        createInviteDB(gotoChat);
+        startActivity(gotoChat);
     }
 
     public void createUserList(){
@@ -115,27 +240,37 @@ public class LandingActivity extends AppCompatActivity {
 
 
     public void createChatChannelDB(Intent gotoChat){
+
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference("ChatChannel");
+        channelId = mDatabaseReference.push().getKey();
 
-        String temp = mDatabaseReference.push().getKey();
-
-        ChatChannel channel =  new ChatChannel(temp,
+        ChatChannel channel =  new ChatChannel(channelId,
                 new User(getIntent().getStringExtra("userId"),
                          getIntent().getStringExtra("userEmail")));
 
         //passing the Channel and Advisee id to the IM_activity
         String userId=getIntent().getStringExtra("userId");
-        gotoChat.putExtra("ChannelId",temp);
+        gotoChat.putExtra("ChannelId",channelId);
         gotoChat.putExtra("UserId",userId);
 
-        mDatabaseReference.child(temp).setValue(channel);
+        mDatabaseReference.child(channelId).setValue(channel);
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("ChatChannelMessages");
         FriendlyMessage emptymssg = new FriendlyMessage("emptyyy","Anonymous",null,null);
-        mDatabaseReference.child(temp).push().setValue(emptymssg);
+        mDatabaseReference.child(channelId).push().setValue(emptymssg);
         FriendlyMessage emptymssg1 = new FriendlyMessage("othermessage","Anonymous",null,null);
-        mDatabaseReference.child(temp).push().setValue(emptymssg1);
+        mDatabaseReference.child(channelId).push().setValue(emptymssg1);
 
+    }
+
+    public void createInviteDB(Intent gotoChat){
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("Invitation");
+
+        invitationId = mDatabaseReference.push().getKey();
+        tempId = getIntent().getStringExtra("userId");
+        Invitation invitation = new Invitation(channelId,problem.getText().toString(),tempId);
+
+        mDatabaseReference.child(invitationId).setValue(invitation);
     }
 
     public void gotoFriends(){
@@ -159,5 +294,15 @@ public class LandingActivity extends AppCompatActivity {
         public void afterTextChanged(Editable s) {
         }
     };
+
+    //debbuging method
+    private void printUserList(){
+        System.out.println("-------------------------");
+        for(String i:userIdArrayList)
+        {
+            System.out.println(i);
+        }
+        System.out.println("-------------------------");
+    }
 
 }
