@@ -63,16 +63,16 @@ public class SignInActivity extends AppCompatActivity implements
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabaseReference;
 
-    //private EventListener
-    
+    private ValueEventListener userListener;
+
     //Intent to go to landing
     Intent gotoLanding;
 
     private Boolean isUserDB=false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_sign_in);
 
         //initializing intent
@@ -80,38 +80,9 @@ public class SignInActivity extends AppCompatActivity implements
         // Assign fields
         mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
 
-        // Set click listeners
-        mSignInButton.setOnClickListener(this);
-
         // Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot i:dataSnapshot.getChildren())
-                {
-                    User temp = i.getValue(User.class);
-                    if (temp==null) break;
-                    if (temp.email.equals(mFirebaseUser.getEmail()))
-                    {
-                        tempId=temp.id;
-                        gotoLanding.putExtra("userId", tempId);
-                        mDatabaseReference.child(tempId).child("available").setValue(true);
-                        isUserDB=true;
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -124,14 +95,12 @@ public class SignInActivity extends AppCompatActivity implements
                 .build();
 
 
-    }
 
-    @Override
-    public void onResume(){
-        super.onResume();
+        // Set click listeners
+        mSignInButton.setOnClickListener(this);
 
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -154,8 +123,17 @@ public class SignInActivity extends AppCompatActivity implements
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+        mDatabaseReference.addValueEventListener(userListener);
+    }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        mDatabaseReference.removeEventListener(userListener);
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
+        mDatabaseReference.addValueEventListener(userListener);
     }
 
     @Override
@@ -190,6 +168,7 @@ public class SignInActivity extends AppCompatActivity implements
         }
     }
 
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGooogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -208,24 +187,30 @@ public class SignInActivity extends AppCompatActivity implements
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             addUserToDB();
-
+                            try{
+                                Thread.sleep(500);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             startActivity(gotoLanding);
                             finish();
                         }
                     }
+
                 });
     }
 
     public void addUserToDB()
     {
-
-        //tempId = mDatabaseReference.push().getKey();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser == null) {
             Log.e(TAG,"User was not signed in cannot" +
                     "be added to DB");
-            return;
+            //return;
         }
         if (!isUserDB) {
+            mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
             tempId = mDatabaseReference.push().getKey();
             user = new User(tempId, mFirebaseUser.getEmail());
             mDatabaseReference.child(tempId).setValue(user);

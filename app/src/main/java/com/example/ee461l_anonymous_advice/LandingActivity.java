@@ -2,6 +2,7 @@ package com.example.ee461l_anonymous_advice;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -41,7 +42,7 @@ public class LandingActivity extends AppCompatActivity {
     public static final String USER = "User";
 
 
-    private DatabaseReference mDatabaseReference;
+    //private DatabaseReference mDatabaseReference;
     private DatabaseReference mUserDatabaseReference;
 
     public ArrayList<String> userIdArrayList = new ArrayList<>();
@@ -50,10 +51,18 @@ public class LandingActivity extends AppCompatActivity {
     private String channelId;
     private String invitationId;
 
-    private ValueEventListener invitationEventListener;
+
     private ValueEventListener openChannels;
 
     private Invitation receivedInvitation;
+
+    private DatabaseReference mDatabaseReference;
+
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private String tempId;
+
+    private ValueEventListener invitationEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,38 @@ public class LandingActivity extends AppCompatActivity {
 
         problem.addTextChangedListener(mTextEditorWatcher);
         //addValueEventListeners();
+        //valueevent listners
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("Invitation");
+        invitationEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot i:dataSnapshot.getChildren())
+                {
+                    Invitation temp = i.getValue(Invitation.class);
+                    if (temp==null) break;
+                    if (!tempId.equals(temp.AdviseeId)) {
+                        Intent gotopopup = new Intent(LandingActivity.this, PopUpActivity.class);
+
+                        gotopopup.putExtra("channelId", temp.channelId);
+                        gotopopup.putExtra("message", temp.question);
+                        startActivity(gotopopup);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        mDatabaseReference.addValueEventListener(invitationEventListener);
 
     }
     //public InvitationAdapter(Callback ca)
@@ -223,8 +264,8 @@ public class LandingActivity extends AppCompatActivity {
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference("Invitation");
 
         invitationId = mDatabaseReference.push().getKey();
-
-        Invitation invitation = new Invitation(channelId,problem.toString());
+        tempId = getIntent().getStringExtra("userId");
+        Invitation invitation = new Invitation(channelId,problem.toString(),tempId);
 
         mDatabaseReference.child(invitationId).setValue(invitation);
     }

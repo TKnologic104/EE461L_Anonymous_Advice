@@ -7,10 +7,12 @@ package com.example.ee461l_anonymous_advice;
 public class Invitation {
     String channelId;
     String question;
+    String AdviseeId;
 
-    public Invitation(String channelId, String question)
+    public Invitation(String channelId, String question, String AdviseeId)
     {
         this.channelId=channelId;
         this.question= question;
+        this.AdviseeId= AdviseeId;
     }
 }

@@ -32,7 +32,13 @@ public class ChatChannel  {
         messages.add(message);
     }
     */
-
+    ChatChannel(User advisee, User adviser, String id, Boolean isLocked)
+    {
+        this.advisee =  advisee;
+        this.adviser = adviser;
+        this.id = id;
+        this.isLocked = isLocked;
+    }
     public void addAdviser(User adviser)
     {
         this.adviser=adviser;
