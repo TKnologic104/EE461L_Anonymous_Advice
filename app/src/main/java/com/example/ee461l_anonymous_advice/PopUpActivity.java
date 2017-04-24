@@ -114,8 +114,8 @@ public class PopUpActivity extends AppCompatActivity{
         ignoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(PopUpActivity.this, LandingActivity.class);
-                startActivity(i);
+//                Intent i = new Intent(PopUpActivity.this, LandingActivity.class);
+//                startActivity(i);
                 finish();
             }
         });
