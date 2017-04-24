@@ -130,12 +130,15 @@ public class PopUpActivity extends AppCompatActivity{
                     e.printStackTrace();
                 }
 
-                Intent goToProfile = new Intent(PopUpActivity.this, IM_Activity.class);
-                goToProfile.putExtra("ChannelId",channelId);
-                startActivity(goToProfile);
-
+                gotoIM(channelId);
             }
         });
+    }
+
+    public void gotoIM(String channelId) {
+        Intent goToProfile = new Intent(PopUpActivity.this, IM_Activity.class);
+        goToProfile.putExtra("ChannelId",channelId);
+        startActivity(goToProfile);
     }
 
 

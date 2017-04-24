@@ -152,47 +152,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
-        //String Name = String.valueOf(getIntent());
-//        Intent intent = getIntent();
-//        Name.setText(intent.getStringExtra("username"));
-//        Gmail.setText(intent.getStringExtra("userEmail"));
-        //import picture using glide. 27:00 in youtube video
-        //updateUI(true);
 
-        Name.setText(mUsername);
-        Gmail.setText(mFirebaseUser.getEmail());
 
-        //valueevent listners
-        /*mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot i:dataSnapshot.getChildren())
-                {
-                    User temp = i.getValue(User.class);
-                    if (temp==null) break;
-                    if (temp.email.equals(mFirebaseUser.getEmail()))
-                    {
-                        tempId=temp.id;
-                        //gotoLanding.putExtra("userId", tempId);
-                        mDatabaseReference.child(tempId).child("available").setValue(true);
-                        //isUserDB=true;
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
+        setUserInfo();
 
 
     }
 
 
+
+    public void setUserInfo(){
+
+        Name.setText(mUsername);
+        Gmail.setText(mFirebaseUser.getEmail());
+
+    }
 
     public void showNotification(View v) {
         //Uses the builder design Pattern for implementation a notification system.
@@ -236,6 +210,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void gotoFAQ(View v) {
+        FAQIntent();
+    }
+
+    public void FAQIntent(){
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
         Intent gotoFAQ = new Intent(this, FAQ.class);
@@ -244,20 +222,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(gotoFAQ);
     }
 
-
-
-    public void gotoPopUp(View v) {
-//        String tempName = (getIntent().getStringExtra("username"));
-//        String tempEmail = (getIntent().getStringExtra("userEmail"));
+//
+//    public void gotoPopUp(View v) {
+////        String tempName = (getIntent().getStringExtra("username"));
+////        String tempEmail = (getIntent().getStringExtra("userEmail"));
+////        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
+////        gotoPopUp.putExtra("username", tempName);
+////        gotoPopUp.putExtra("userEmail", tempEmail);
+////        startActivity(gotoPopUp);
+//
+//        PopUpActivity popUp = new PopUpActivity();
 //        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
-//        gotoPopUp.putExtra("username", tempName);
-//        gotoPopUp.putExtra("userEmail", tempEmail);
 //        startActivity(gotoPopUp);
-
-        PopUpActivity popUp = new PopUpActivity();
-        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
-        startActivity(gotoPopUp);
-    }
+//    }
 
 
     @Override
@@ -274,8 +251,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String userId = getIntent().getStringExtra("userId");
         mUserRef.child(userId).child("available").setValue(false);
         //pass the id to user.
+        gotoSignIn();
         startActivity(new Intent(this, SignInActivity.class));
 
+    }
+
+    public void gotoSignIn() {
+        startActivity(new Intent(this, SignInActivity.class));
     }
 
 

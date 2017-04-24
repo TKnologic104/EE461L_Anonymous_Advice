@@ -190,16 +190,19 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void gotoProfile(View v){
-        //TODO: create Profile Activity
+        profileIntent();
+    }
+
+    public void profileIntent() {
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
         String tempId = getIntent().getStringExtra("userId");
+
         Intent gotoProfile = new Intent(this, MainActivity.class);
         gotoProfile.putExtra("username",tempName);
         gotoProfile.putExtra("userEmail",tempEmail);
         gotoProfile.putExtra("userId",tempId);
         startActivity(gotoProfile);
-        //create intent to goto Profile
     }
 
     public void search(View v){
@@ -210,7 +213,13 @@ public class LandingActivity extends AppCompatActivity {
         createChatChannelDB(gotoChat);
 
         createInviteDB(gotoChat);
-        startActivity(gotoChat);
+        gotoIM(gotoChat);
+
+    }
+
+    public void gotoIM(Intent i) {
+        startActivity(i);
+
     }
 
     public void createUserList(){
@@ -271,10 +280,6 @@ public class LandingActivity extends AppCompatActivity {
         Invitation invitation = new Invitation(channelId,problem.getText().toString(),tempId);
 
         mDatabaseReference.child(invitationId).setValue(invitation);
-    }
-
-    public void gotoFriends(){
-        //TODO: create intent to goto Friends page
     }
 
 
