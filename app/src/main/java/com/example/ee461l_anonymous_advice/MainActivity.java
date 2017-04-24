@@ -8,13 +8,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +31,11 @@ import com.google.firebase.appindexing.FirebaseUserActions;
 import com.google.firebase.appindexing.builders.Actions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
@@ -36,7 +46,7 @@ import java.util.Map;
 
 
 
-//import com.example.tk_whatsappclone.R; hi
+//import com.example.tk_whatsappclone.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -56,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    //Firebase database variables
+    private DatabaseReference mUserRef;
 
     //FriendlyChat's variables
     private static final String TAG = "MainActivity";
@@ -75,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // Firebase instance variables
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
+    private DatabaseReference mDatabaseReference;
 //    private FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder>
 //            mFirebaseAdapter;
 
@@ -149,6 +162,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Name.setText(mUsername);
         Gmail.setText(mFirebaseUser.getEmail());
 
+        //valueevent listners
+        /*mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot i:dataSnapshot.getChildren())
+                {
+                    User temp = i.getValue(User.class);
+                    if (temp==null) break;
+                    if (temp.email.equals(mFirebaseUser.getEmail()))
+                    {
+                        tempId=temp.id;
+                        //gotoLanding.putExtra("userId", tempId);
+                        mDatabaseReference.child(tempId).child("available").setValue(true);
+                        //isUserDB=true;
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });*/
+
 
     }
 
@@ -180,13 +220,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(MainActivity.this, "inside Onclick", Toast.LENGTH_LONG).show();
         signOut();
     }
 
     public void gotoLanding(View v) {
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
+        String tempId = (getIntent()).getStringExtra("userId");
         Intent gotoLanding = new Intent(this, LandingActivity.class);
         gotoLanding.putExtra("username", tempName);
         gotoLanding.putExtra("userEmail", tempEmail);
@@ -224,12 +264,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
+//ToDO pass userId when going back to Landing activity;
     private void signOut(){
         mFirebaseAuth.signOut();
         Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         mUsername = ANONYMOUS;
-        mFirebaseUser.delete();
+
+        mUserRef = FirebaseDatabase.getInstance().getReference("User");
+        String userId = getIntent().getStringExtra("userId");
+        mUserRef.child(userId).child("available").setValue(false);
+        //pass the id to user.
         startActivity(new Intent(this, SignInActivity.class));
 
     }

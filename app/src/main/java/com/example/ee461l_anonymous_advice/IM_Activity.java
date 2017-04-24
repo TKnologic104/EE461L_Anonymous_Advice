@@ -144,6 +144,9 @@ public class IM_Activity extends AppCompatActivity
     private FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder>
             mFirebaseAdapter;
 
+    //close Button
+    private ImageView closeChat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +154,7 @@ public class IM_Activity extends AppCompatActivity
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Set default username is anonymous.
         mUsername = ANONYMOUS;
+        closeChat = (ImageView)findViewById(R.id.closeChatButton);
         //todo update user availability in DB
 
         // Initialize Firebase Remote Config.
