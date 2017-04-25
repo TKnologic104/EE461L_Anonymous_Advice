@@ -99,9 +99,6 @@ public class SignInActivity extends AppCompatActivity implements
 
         // Set click listeners
         mSignInButton.setOnClickListener(this);
-
-        //checkforUserInDB();
-
     }
 
     @Override
@@ -154,7 +151,6 @@ public class SignInActivity extends AppCompatActivity implements
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                        checkforUserInDB();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -177,12 +173,6 @@ public class SignInActivity extends AppCompatActivity implements
     }
     public void checkforUserInDB()
     {
-
-//        try {
-//            Thread.sleep(500);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference();
         userListener = new ValueEventListener() {
@@ -210,14 +200,19 @@ public class SignInActivity extends AppCompatActivity implements
                         {
                             mDatabaseReference.child("User").child(temp.id).removeValue();
                         }
-                    }
 
+                    }
+                    Intent gotoMain = new Intent(SignInActivity.this ,MainActivity.class);
+                    gotoMain.putExtra("userId", importantUser.id);
+                    gotoMain.putExtra("userEmail",importantUser.email);
+                    startActivity(gotoMain);
 
                 }
-                //should only go to another activity when new user is created in DB
-                gotoLanding.putExtra("userId", importantUser.id);
-                gotoLanding.putExtra("userEmail",importantUser.email);
-                startActivity(gotoLanding);
+                if(!first)
+                {
+                    //should only go to another activity when new user is created in DB
+                }
+
 
             }
 
@@ -239,7 +234,7 @@ public class SignInActivity extends AppCompatActivity implements
                     "be added to DB");
             //return;
         }
-
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         tempId = mDatabaseReference.child("User").push().getKey();
         user = new User(tempId, mFirebaseUser.getEmail());
         mDatabaseReference.child("User").child(tempId).setValue(user);

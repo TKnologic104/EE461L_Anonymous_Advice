@@ -511,6 +511,9 @@ public class IM_Activity extends AppCompatActivity
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed(){}
+
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        MenuInflater inflater = getMenuInflater();

@@ -277,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String userId = getIntent().getStringExtra("userId");
         mUserRef.child(userId).child("available").setValue(false);
         //pass the id to user.
+        finish();
         startActivity(new Intent(this, SignInActivity.class));
 
     }
