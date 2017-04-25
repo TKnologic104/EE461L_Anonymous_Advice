@@ -70,6 +70,9 @@ public class SignInActivity extends AppCompatActivity implements
 
     private Boolean isUserDB=false;
     private Boolean wait=true;
+
+    public boolean hasSignedOut = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,7 +176,10 @@ public class SignInActivity extends AppCompatActivity implements
     }
     public void checkforUserInDB()
     {
-
+    if (hasSignedOut){
+        Intent gotoMain = new Intent(SignInActivity.this ,MainActivity.class);
+        return;
+    }
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference();
         userListener = new ValueEventListener() {
             @Override
@@ -192,27 +198,28 @@ public class SignInActivity extends AppCompatActivity implements
                             gotoLanding.removeExtra("userId");
                             gotoLanding.putExtra("userId", tempId);
                             mDatabaseReference.child("User").child(tempId).child("available").setValue(true);
-                            importantUser= temp;
+                            importantUser = temp;
                             isUserDB = true;
                             first = false;
                         }
                         else
                         {
                             mDatabaseReference.child("User").child(temp.id).removeValue();
+                            //should only go to another activity when new user is created in DB
                         }
 
                     }
-                    Intent gotoMain = new Intent(SignInActivity.this ,MainActivity.class);
-                    gotoMain.putExtra("userId", importantUser.id);
-                    gotoMain.putExtra("userEmail",importantUser.email);
-                    startActivity(gotoMain);
+                    //Intent gotoMain = new Intent(SignInActivity.this ,MainActivity.class);
 
                 }
-                if(!first)
-                {
-                    //should only go to another activity when new user is created in DB
-                }
 
+                        if(!hasSignedOut) {
+                            //gotoLanding
+                            gotoLanding.putExtra("userId", importantUser.id);
+                            gotoLanding.putExtra("userEmail", importantUser.email);
+                            hasSignedOut = true;
+                            startActivity(gotoLanding);
+                        }
 
             }
 
