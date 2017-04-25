@@ -94,8 +94,11 @@ public class LandingActivity extends AppCompatActivity {
                     Invitation temp = i.getValue(Invitation.class);
                     if (temp==null) break;
                     if (!tempId.equals(temp.AdviseeId)) {
+                        //deleting invitation
+                        i.getRef().removeValue();
                         Intent gotopopup = new Intent(LandingActivity.this, PopUpActivity.class);
 
+                        gotopopup.putExtra("userId",tempId);
                         gotopopup.putExtra("channelId", temp.channelId);
                         gotopopup.putExtra("message", temp.question);
                         startActivity(gotopopup);
@@ -112,88 +115,15 @@ public class LandingActivity extends AppCompatActivity {
 
         mDatabaseReference.addValueEventListener(invitationEventListener);
 
+        //mDatabaseReference= Fir
     }
     //public InvitationAdapter(Callback ca)
-    private class InvitationChildEventListener implements ChildEventListener{
 
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            //Create pop-up
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            //remove from list
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-            ///remove from local list
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            //not interested on moved
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    }
-    public void addValueEventListeners() {
-
-        mDatabaseReference.child("Invitation").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Invitation invitation = dataSnapshot.getValue(Invitation.class);
-                popupflag=true;
-                //invitation.message = R.id.poptext;
-                //create popup
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        //mDatabaseReference.child("I")
-        //check if invitation is still there
-    }
-
-    private void createPopup()
-    {
-        DatabaseReference isLockedRef = mDatabaseReference.child("ChatChannel").child(receivedInvitation.channelId);
-        isLockedRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean isLocked = dataSnapshot.getValue(boolean.class);
-                if (isLocked)
-                {
-                    dissablePopUp();
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
-    private void dissablePopUp()
-    {
-        //remove accept button
-    }
 
     public void gotoProfile(View v){
         //TODO: create Profile Activity
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
-        String tempId = getIntent().getStringExtra("userId");
         Intent gotoProfile = new Intent(this, MainActivity.class);
         gotoProfile.putExtra("username",tempName);
         gotoProfile.putExtra("userEmail",tempEmail);
@@ -204,12 +134,18 @@ public class LandingActivity extends AppCompatActivity {
 
     public void search(View v){
         problemStatement = (String)problem.getText().toString();
+        if (problemStatement.isEmpty())
+        {
+            return;
+        }
         Intent gotoChat = new Intent(this, IM_Activity.class);
 
         createUserList();
         createChatChannelDB(gotoChat);
 
         createInviteDB(gotoChat);
+        //need to add usser id
+        gotoChat.putExtra("userId",tempId);
         startActivity(gotoChat);
     }
 
@@ -241,8 +177,8 @@ public class LandingActivity extends AppCompatActivity {
 
     public void createChatChannelDB(Intent gotoChat){
 
-        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("ChatChannel");
-        channelId = mDatabaseReference.push().getKey();
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference();
+        channelId = mDatabaseReference.child("ChatChannel").push().getKey();
 
         ChatChannel channel =  new ChatChannel(channelId,
                 new User(getIntent().getStringExtra("userId"),
@@ -253,24 +189,26 @@ public class LandingActivity extends AppCompatActivity {
         gotoChat.putExtra("ChannelId",channelId);
         gotoChat.putExtra("UserId",userId);
 
-        mDatabaseReference.child(channelId).setValue(channel);
+        mDatabaseReference.child("ChatChannel").child(channelId).setValue(channel);
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("ChatChannelMessages");
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         FriendlyMessage emptymssg = new FriendlyMessage("emptyyy","Anonymous",null,null);
-        mDatabaseReference.child(channelId).push().setValue(emptymssg);
+        mDatabaseReference.child("ChatChannelMessages").child(channelId).push().setValue(emptymssg);
         FriendlyMessage emptymssg1 = new FriendlyMessage("othermessage","Anonymous",null,null);
-        mDatabaseReference.child(channelId).push().setValue(emptymssg1);
+        mDatabaseReference.child("ChatChannelMessages").child(channelId).push().setValue(emptymssg1);
 
     }
 
     public void createInviteDB(Intent gotoChat){
-        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("Invitation");
-
-        invitationId = mDatabaseReference.push().getKey();
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference();
+        mDatabaseReference.child("Invitation");
+        invitationId = mDatabaseReference.child("Invitation").push().getKey();
         tempId = getIntent().getStringExtra("userId");
         Invitation invitation = new Invitation(channelId,problem.getText().toString(),tempId);
 
-        mDatabaseReference.child(invitationId).setValue(invitation);
+        mDatabaseReference.child("Invitation").child(invitationId).setValue(invitation);
+
+        gotoChat.putExtra("invitationId",invitationId);
     }
 
     public void gotoFriends(){

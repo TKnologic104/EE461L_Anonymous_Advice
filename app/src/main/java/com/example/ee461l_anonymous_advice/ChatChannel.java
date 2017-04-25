@@ -8,12 +8,12 @@ import java.util.List;
  */
 
 public class ChatChannel  {
-    User advisee;
-    User adviser;
+    public User advisee;
+    public User adviser;
 
-    String id;
+    public String id;
 
-    Boolean isLocked;
+    public Boolean isLocked;
 
 //    List<Message> messages;
     ChatChannel(){}

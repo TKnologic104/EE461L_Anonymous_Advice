@@ -66,9 +66,13 @@ public class SignInActivity extends AppCompatActivity implements
     private ValueEventListener userListener;
 
     //Intent to go to landing
-    Intent gotoLanding;
+    private Intent gotoLanding;
 
     private Boolean isUserDB=false;
+    private Boolean wait=true;
+
+    public boolean hasSignedOut = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,42 +102,15 @@ public class SignInActivity extends AppCompatActivity implements
 
         // Set click listeners
         mSignInButton.setOnClickListener(this);
-
-        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
-        userListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot i:dataSnapshot.getChildren())
-                {
-                    User temp = i.getValue(User.class);
-                    if (temp==null) break;
-                    if (temp.email.equals(mFirebaseUser.getEmail()))
-                    {
-                        tempId=temp.id;
-                        gotoLanding.putExtra("userId", tempId);
-                        mDatabaseReference.child(tempId).child("available").setValue(true);
-                        isUserDB=true;
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        mDatabaseReference.addValueEventListener(userListener);
     }
 
     @Override
     public void onStart(){
         super.onStart();
 
-        mDatabaseReference.removeEventListener(userListener);
-        mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
-        mDatabaseReference.addValueEventListener(userListener);
+        /*mDatabaseReference.removeEventListener(userListener);
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference();
+        mDatabaseReference.child("User").addValueEventListener(userListener);*/
     }
 
     @Override
@@ -177,7 +154,6 @@ public class SignInActivity extends AppCompatActivity implements
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -185,41 +161,92 @@ public class SignInActivity extends AppCompatActivity implements
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                        } else {
+                            return;
+                        }else {
                             addUserToDB();
-                            try{
-                                Thread.sleep(500);
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-                            startActivity(gotoLanding);
-                            finish();
+                            checkforUserInDB();
+
                         }
                     }
 
                 });
+
+
+
+    }
+    public void checkforUserInDB()
+    {
+    if (hasSignedOut){
+        Intent gotoMain = new Intent(SignInActivity.this ,MainActivity.class);
+        return;
+    }
+        mDatabaseReference =  FirebaseDatabase.getInstance().getReference();
+        userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean first=true;
+                User importantUser= new User();
+                for (DataSnapshot i:dataSnapshot.getChildren())
+                {
+                    User temp = i.getValue(User.class);
+
+                    if (temp==null) break;
+                    if (temp.email.equals(mFirebaseUser.getEmail())  )
+                    {
+                        if (first) {
+                            tempId = temp.id;
+                            gotoLanding.removeExtra("userId");
+                            gotoLanding.putExtra("userId", tempId);
+                            mDatabaseReference.child("User").child(tempId).child("available").setValue(true);
+                            importantUser = temp;
+                            isUserDB = true;
+                            first = false;
+                        }
+                        else
+                        {
+                            mDatabaseReference.child("User").child(temp.id).removeValue();
+                            //should only go to another activity when new user is created in DB
+                        }
+
+                    }
+                    //Intent gotoMain = new Intent(SignInActivity.this ,MainActivity.class);
+
+                }
+
+                        if(!hasSignedOut) {
+                            //gotoLanding
+                            gotoLanding.putExtra("userId", importantUser.id);
+                            gotoLanding.putExtra("userEmail", importantUser.email);
+                            hasSignedOut = true;
+                            startActivity(gotoLanding);
+                        }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        mDatabaseReference.child("User").addValueEventListener(userListener);
     }
 
     public void addUserToDB()
     {
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser == null) {
-            Log.e(TAG,"User was not signed in cannot" +
+            Log.e(TAG,"User was not signed in cannot " +
                     "be added to DB");
             //return;
         }
-        if (!isUserDB) {
-            mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
-            tempId = mDatabaseReference.push().getKey();
-            user = new User(tempId, mFirebaseUser.getEmail());
-            mDatabaseReference.child(tempId).setValue(user);
-            gotoLanding.putExtra("userId", tempId);
-                        //updating intent
-        }
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        tempId = mDatabaseReference.child("User").push().getKey();
+        user = new User(tempId, mFirebaseUser.getEmail());
+        mDatabaseReference.child("User").child(tempId).setValue(user);
 
-
-        gotoLanding.putExtra("userEmail", mFirebaseUser.getEmail());
+        //updating intent
 
     }
 

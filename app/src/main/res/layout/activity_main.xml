@@ -118,16 +118,16 @@
                 android:layout_marginBottom="20dp"/>
 
 
-            <Button
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="12dp"
-                android:background="@drawable/button_selector"
-                android:id="@+id/bn_popup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:onClick="gotoPopUp"
-                android:text="PopUp"/>
+            <!--<Button-->
+                <!--android:textColor="@color/colorPrimaryDark"-->
+                <!--android:textSize="12dp"-->
+                <!--android:background="@drawable/button_selector"-->
+                <!--android:id="@+id/bn_popup"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:onClick="gotoPopUp"-->
+                <!--android:text="PopUp"/>-->
 
         </LinearLayout>
 

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button gotoPopUp;
     private User user;
 
-    private String tempId;
+    private static String tempId;
 
     //Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -129,7 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SignOut.setOnClickListener(this);
         gotoLanding = (Button) findViewById(R.id.bn_landing);
         gotoFAQ = (Button) findViewById(R.id.bn_faq);
-        gotoPopUp = (Button) findViewById(R.id.bn_popup);
+
+        //gotoPopUp = (Button) findViewById(R.id.bn_popup);
 
 
 
@@ -238,9 +239,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void gotoFAQ(View v) {
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
+        String tempId =  getIntent().getStringExtra("userId");
         Intent gotoFAQ = new Intent(this, FAQ.class);
         gotoFAQ.putExtra("username", tempName);
         gotoFAQ.putExtra("userEmail", tempEmail);
+        gotoFAQ.putExtra("userId",tempId);
         startActivity(gotoFAQ);
     }
 
@@ -254,9 +257,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        gotoPopUp.putExtra("userEmail", tempEmail);
 //        startActivity(gotoPopUp);
 
-        PopUpActivity popUp = new PopUpActivity();
-        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
-        startActivity(gotoPopUp);
+//        PopUpActivity popUp = new PopUpActivity();
+//        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
+//        startActivity(gotoPopUp);
     }
 
 
@@ -274,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String userId = getIntent().getStringExtra("userId");
         mUserRef.child(userId).child("available").setValue(false);
         //pass the id to user.
+        finish();
         startActivity(new Intent(this, SignInActivity.class));
 
     }

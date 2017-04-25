@@ -5,9 +5,9 @@ package com.example.ee461l_anonymous_advice;
  */
 
 public class Invitation {
-    String channelId;
-    String question;
-    String AdviseeId;
+    public String channelId;
+    public String question;
+    public String AdviseeId;
 
     public Invitation(){}
 
