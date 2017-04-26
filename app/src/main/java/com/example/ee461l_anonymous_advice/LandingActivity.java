@@ -134,10 +134,10 @@ public class LandingActivity extends AppCompatActivity {
 
     public void search(View v){
         problemStatement = (String)problem.getText().toString();
-        if (problemStatement.isEmpty())
-        {
-            return;
-        }
+//        if (problemStatement.isEmpty())
+//        {
+//            return;
+//        }
         Intent gotoChat = new Intent(this, IM_Activity.class);
 
         createUserList();
