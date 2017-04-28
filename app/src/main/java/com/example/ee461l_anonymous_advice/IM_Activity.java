@@ -150,12 +150,13 @@ public class IM_Activity extends AppCompatActivity
     //close Button
     private ImageView closeChat;
 
+    private TextView questionTextView;
+
     private Intent goToLanding;
     //flag for identifying if no user has logged in.
     private boolean deleteInvitation=false;
     private boolean isAdvisee;
 
-    //TODO test when no one get an invitation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,7 +165,10 @@ public class IM_Activity extends AppCompatActivity
         // Set default username is anonymous.
         mUsername = ANONYMOUS;
         closeChat = (ImageView)findViewById(R.id.closeChatButton);
+
         //todo update user availability in DB
+
+        isAdvisee = getIntent().getBooleanExtra("isAdvisee", true);
 
         // Initialize Firebase Remote Config.
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
@@ -305,13 +309,16 @@ public class IM_Activity extends AppCompatActivity
 
 
                 viewHolder.messengerTextView.setText(friendlyMessage.getName());
-                if (friendlyMessage.getPhotoUrl() == null) {
+                if (friendlyMessage.getIsAdvisee()) {
                     viewHolder.messengerImageView.setImageDrawable(ContextCompat.getDrawable(IM_Activity.this,
-                            R.drawable.ic_account_circle_black_36dp));
+                            R.drawable.ic_account_circle_black_36dp));//ToDO create drawable for advisee
                 } else {
-                    Glide.with(IM_Activity.this)
-                            .load(friendlyMessage.getPhotoUrl())
-                            .into(viewHolder.messengerImageView);
+//                    Glide.with(IM_Activity.this)
+//                            .load(friendlyMessage.getPhotoUrl())
+//                            .into(viewHolder.messengerImageView);
+
+                    viewHolder.messengerImageView.setImageDrawable(ContextCompat.getDrawable(IM_Activity.this,
+                            R.drawable.ic_add_black_24dp));//ToDO create drawable for adviser
                 }
 
 //                // write this message to the on-device index
@@ -373,7 +380,8 @@ public class IM_Activity extends AppCompatActivity
                         FriendlyMessage(mMessageEditText.getText().toString(),
                         mUsername,
                         mPhotoUrl,
-                        null /* no image */);
+                        null, /* no image */
+                        isAdvisee);
                 mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref)
                         .push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
@@ -434,7 +442,7 @@ public class IM_Activity extends AppCompatActivity
                     Log.d(TAG, "Uri: " + uri.toString());
 
                     FriendlyMessage tempMessage = new FriendlyMessage(null, mUsername, mPhotoUrl,
-                            LOADING_IMAGE_URL);
+                            LOADING_IMAGE_URL, false);
                     mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref).push()
                             .setValue(tempMessage, new DatabaseReference.CompletionListener() {
                                 @Override
@@ -474,7 +482,7 @@ public class IM_Activity extends AppCompatActivity
                                             mUsername,
                                             mPhotoUrl,
                                             task.getResult().getMetadata().getDownloadUrl()
-                                                    .toString());
+                                                    .toString(), false);
                             mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref).child(key)
                                     .setValue(friendlyMessage);
                         } else {

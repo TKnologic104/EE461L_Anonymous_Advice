@@ -136,8 +136,18 @@ public class PopUpActivity extends AppCompatActivity{
 
                 if (canGoToChatChannel) {
                     Intent goToIM_Activity = new Intent(PopUpActivity.this, IM_Activity.class);
+
+                    String invitationRef = getIntent().getStringExtra("invatationReference");
+                    Log.d("PopUpActivity", invitationRef);
+                    mDatabaseReference =FirebaseDatabase.getInstance().getReference();
+                    mDatabaseReference.child("Invitation").child(invitationRef).removeValue();
+
+                    String question = getIntent().getStringExtra("adviseeQuestion");
+                    goToIM_Activity.putExtra("adviseeQuestion",question);
+
                     goToIM_Activity.putExtra("ChannelId", channelId);
                     goToIM_Activity.putExtra("userId", userId);
+                    goToIM_Activity.putExtra("isAdvisee",Boolean.valueOf(false));
                     startActivity(goToIM_Activity);
                 }
                 else

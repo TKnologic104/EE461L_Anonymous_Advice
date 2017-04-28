@@ -22,15 +22,17 @@ public class FriendlyMessage {
     private String name;
     private String photoUrl;
     private String imageUrl;
+    private Boolean isAdvisee;
 
     public FriendlyMessage() {
     }
 
-    public FriendlyMessage(String text, String name, String photoUrl, String imageUrl) {
+    public FriendlyMessage(String text, String name, String photoUrl, String imageUrl, Boolean isAdvisee){
         this.text = text;
         this.name = name;
         this.photoUrl = photoUrl;
         this.imageUrl = imageUrl;
+        this.isAdvisee = isAdvisee;
     }
 
     public String getId() {
@@ -71,5 +73,13 @@ public class FriendlyMessage {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Boolean getIsAdvisee(){
+        return isAdvisee;
+    }
+
+    public void setIsAdvisee(Boolean isAdvisee){
+        this.isAdvisee =  isAdvisee;
     }
 }

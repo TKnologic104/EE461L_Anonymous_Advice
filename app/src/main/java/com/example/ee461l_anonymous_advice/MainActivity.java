@@ -12,8 +12,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.text.InputFilter;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,6 +29,8 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseUserActions;
 import com.google.firebase.appindexing.builders.Actions;
@@ -91,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    private FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder>
 //            mFirebaseAdapter;
 
+    //TODO add the EventListner for the pop-up
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFirebaseRemoteConfig.setDefaults(defaultConfigMap);
 
 // Fetch remote config.
-      //  fetchConfig();
 
         Prof_Section = (LinearLayout) findViewById(R.id.prof_section);
         SignOut = (Button) findViewById(R.id.bn_logout);
@@ -308,5 +314,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUserActions.getInstance().end(getIndexApiAction());
         super.onStop();
     }
+
+
 }
 

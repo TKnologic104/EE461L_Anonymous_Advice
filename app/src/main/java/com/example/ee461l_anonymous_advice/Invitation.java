@@ -17,4 +17,6 @@ public class Invitation {
         this.question= question;
         this.AdviseeId= AdviseeId;
     }
+
+    public String getquestion(){ return question;}
 }

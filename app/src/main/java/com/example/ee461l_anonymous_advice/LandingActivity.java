@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,10 +64,14 @@ public class LandingActivity extends AppCompatActivity {
     private String tempId;
 
     private ValueEventListener invitationEventListener;
+    public Intent gotoChat;
+
+    private Invitation invitation;//paramater for invitation
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gotoChat = new Intent(this, IM_Activity.class);
         setContentView(R.layout.activity_landing);
         profile = (Button) findViewById(R.id.bn_profile);
         problem = (EditText) findViewById(R.id.problemText);
@@ -93,14 +98,17 @@ public class LandingActivity extends AppCompatActivity {
                 {
                     Invitation temp = i.getValue(Invitation.class);
                     if (temp==null) break;
-                    if (!tempId.equals(temp.AdviseeId)) {
+                    if (!tempId.equals(temp.AdviseeId))
+                    {
                         //deleting invitation
-                        i.getRef().removeValue();
+                        //i.getRef().removeValue();
                         Intent gotopopup = new Intent(LandingActivity.this, PopUpActivity.class);
 
                         gotopopup.putExtra("userId",tempId);
                         gotopopup.putExtra("channelId", temp.channelId);
                         gotopopup.putExtra("message", temp.question);
+                        gotopopup.putExtra("invatationReference",i.getKey());
+                        gotopopup.putExtra("adviseeQuestion", temp.question);
                         startActivity(gotopopup);
                     }
                 }
@@ -134,18 +142,22 @@ public class LandingActivity extends AppCompatActivity {
 
     public void search(View v){
         problemStatement = (String)problem.getText().toString();
-//        if (problemStatement.isEmpty())
-//        {
-//            return;
-//        }
-        Intent gotoChat = new Intent(this, IM_Activity.class);
+        if (problemStatement.isEmpty())
+        {
+            Toast.makeText(this, "Please enter problem statement", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
         createUserList();
+        createInviteDB(gotoChat);
         createChatChannelDB(gotoChat);
 
-        createInviteDB(gotoChat);
         //need to add usser id
         gotoChat.putExtra("userId",tempId);
+        //flag for recognizing difference between advisee and adviser
+        gotoChat.putExtra("isAdvisee",Boolean.valueOf(true));
+
         startActivity(gotoChat);
     }
 
@@ -192,10 +204,10 @@ public class LandingActivity extends AppCompatActivity {
         mDatabaseReference.child("ChatChannel").child(channelId).setValue(channel);
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        FriendlyMessage emptymssg = new FriendlyMessage("emptyyy","Anonymous",null,null);
-        mDatabaseReference.child("ChatChannelMessages").child(channelId).push().setValue(emptymssg);
-        FriendlyMessage emptymssg1 = new FriendlyMessage("othermessage","Anonymous",null,null);
-        mDatabaseReference.child("ChatChannelMessages").child(channelId).push().setValue(emptymssg1);
+        FriendlyMessage invitationmssg = new FriendlyMessage(invitation.getquestion(),"Advisee",null,null,false);
+        mDatabaseReference.child("ChatChannelMessages").child(channelId).push().setValue(invitationmssg);
+//        FriendlyMessage emptymssg1 = new FriendlyMessage("othermessage","Anonymous",null,null);
+//        mDatabaseReference.child("ChatChannelMessages").child(channelId).push().setValue(emptymssg1);
 
     }
 
@@ -204,11 +216,12 @@ public class LandingActivity extends AppCompatActivity {
         mDatabaseReference.child("Invitation");
         invitationId = mDatabaseReference.child("Invitation").push().getKey();
         tempId = getIntent().getStringExtra("userId");
-        Invitation invitation = new Invitation(channelId,problem.getText().toString(),tempId);
+        invitation = new Invitation(channelId,problem.getText().toString(),tempId);
 
         mDatabaseReference.child("Invitation").child(invitationId).setValue(invitation);
 
         gotoChat.putExtra("invitationId",invitationId);
+        gotoChat.putExtra("adviseeQuestion", invitation.question);
     }
 
     public void gotoFriends(){
