@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button gotoPopUp;
     private User user;
 
-    private String tempId;
+    private static String tempId;
 
     //Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -129,7 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SignOut.setOnClickListener(this);
         gotoLanding = (Button) findViewById(R.id.bn_landing);
         gotoFAQ = (Button) findViewById(R.id.bn_faq);
-        gotoPopUp = (Button) findViewById(R.id.bn_popup);
+
+        //gotoPopUp = (Button) findViewById(R.id.bn_popup);
 
 
 
@@ -152,21 +153,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
-
-
-        setUserInfo();
-
-
-    }
-
-
-
-    public void setUserInfo(){
+        //String Name = String.valueOf(getIntent());
+//        Intent intent = getIntent();
+//        Name.setText(intent.getStringExtra("username"));
+//        Gmail.setText(intent.getStringExtra("userEmail"));
+        //import picture using glide. 27:00 in youtube video
+        //updateUI(true);
 
         Name.setText(mUsername);
         Gmail.setText(mFirebaseUser.getEmail());
 
+        //valueevent listners
+        /*mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot i:dataSnapshot.getChildren())
+                {
+                    User temp = i.getValue(User.class);
+                    if (temp==null) break;
+                    if (temp.email.equals(mFirebaseUser.getEmail()))
+                    {
+                        tempId=temp.id;
+                        //gotoLanding.putExtra("userId", tempId);
+                        mDatabaseReference.child(tempId).child("available").setValue(true);
+                        //isUserDB=true;
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });*/
+
+
     }
+
+
 
     public void showNotification(View v) {
         //Uses the builder design Pattern for implementation a notification system.
@@ -216,9 +243,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void FAQIntent(){
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
+        String tempId =  getIntent().getStringExtra("userId");
         Intent gotoFAQ = new Intent(this, FAQ.class);
         gotoFAQ.putExtra("username", tempName);
         gotoFAQ.putExtra("userEmail", tempEmail);
+        gotoFAQ.putExtra("userId",tempId);
         startActivity(gotoFAQ);
     }
 
@@ -233,8 +262,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 //        PopUpActivity popUp = new PopUpActivity();
 //        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
+//        gotoPopUp.putExtra("username", tempName);
+//        gotoPopUp.putExtra("userEmail", tempEmail);
 //        startActivity(gotoPopUp);
-//    }
+
+//        PopUpActivity popUp = new PopUpActivity();
+//        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
+//        startActivity(gotoPopUp);
+    }
 
 
     @Override

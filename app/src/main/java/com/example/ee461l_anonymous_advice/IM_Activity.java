@@ -57,10 +57,12 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
         import com.google.firebase.appindexing.builders.Actions;
         import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.auth.FirebaseUser;
-        import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
         import com.google.firebase.database.DatabaseReference;
         import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
         import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
         import com.google.firebase.storage.FirebaseStorage;
         import com.google.firebase.storage.StorageReference;
@@ -120,6 +122,7 @@ public class IM_Activity extends AppCompatActivity
     private String mPhotoUrl;
 
     private String channelref;
+    private String userId;
 
     private SharedPreferences mSharedPreferences;
     private GoogleApiClient mGoogleApiClient;
@@ -148,6 +151,12 @@ public class IM_Activity extends AppCompatActivity
     //close Button
     private ImageView closeChat;
 
+    private Intent goToLanding;
+    //flag for identifying if no user has logged in.
+    private boolean deleteInvitation=false;
+    private boolean isAdvisee;
+
+    //TODO test when no one get an invitation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,6 +227,28 @@ public class IM_Activity extends AppCompatActivity
 
         //------------------
         channelref = getIntent().getStringExtra("ChannelId");
+        //------------------
+        mFirebaseDatabaseReference.child("ChatChannel").child(channelref).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ChatChannel temp =dataSnapshot.getValue(ChatChannel.class);
+                        //check for two things if user has been
+                        if (!temp.isLocked)
+                            deleteInvitation=true;
+                        if (temp.adviser!=null)
+                        {
+                            deleteInvitation=false;//should not happen but either way
+                            //should check if the id is the same as id passed
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
         //------------------
         mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage,
                 MessageViewHolder>(
@@ -366,6 +397,34 @@ public class IM_Activity extends AppCompatActivity
     }
 
 
+    public void CloseChatBtn(View view){
+
+        goToLanding = new Intent(this, LandingActivity.class);
+
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        mFirebaseDatabaseReference.child("ChatChannel").child(channelref).removeValue();
+
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref).removeValue();
+
+        //--------------------------deleting invitation if no one signed want to answer question----------
+        String invitationId = getIntent().getStringExtra("invitationId");
+        if (invitationId!=null && deleteInvitation)
+        {
+            mFirebaseDatabaseReference= FirebaseDatabase.getInstance().getReference();
+            mFirebaseDatabaseReference.child("Invitation").child(invitationId).removeValue();
+        }
+
+
+        //userId is a constant that we need to know throuhout the app.
+        String tempId = getIntent().getStringExtra("userId");
+        goToLanding.putExtra("userId",tempId);
+
+        startActivity(goToLanding);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -454,6 +513,9 @@ public class IM_Activity extends AppCompatActivity
     public void onDestroy() {
         super.onDestroy();
     }
+
+    @Override
+    public void onBackPressed(){}
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

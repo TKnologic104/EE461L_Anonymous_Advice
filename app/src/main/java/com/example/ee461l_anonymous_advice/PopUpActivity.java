@@ -52,7 +52,8 @@ public class PopUpActivity extends AppCompatActivity{
 
     //node to be user to replace old node.
     private ChatChannel chatChannel;
-
+    private String userId;
+    private boolean canGoToChatChannel=false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class PopUpActivity extends AppCompatActivity{
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         channelId = getIntent().getStringExtra("channelId");
+        userId = getIntent().getStringExtra("userId");
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("ChatChannel");
         mDatabaseReference.addValueEventListener( new ValueEventListener() {
@@ -86,16 +88,18 @@ public class PopUpActivity extends AppCompatActivity{
                 {
 
                     ChatChannel temp =  i.getValue(ChatChannel.class);
-                    if (!temp.isLocked)
-                        if (temp.id.equals(channelId))
-                        {
+                    if (!temp.isLocked) {
+
+                        if (temp.id.equals(channelId)) {
                             mDatabaseReference.child(temp.id).setValue(
                                     new ChatChannel(temp.advisee,
-                                            new User(null,mFirebaseUser.getEmail()),
-                                            channelId,true)
+                                            new User(userId, mFirebaseUser.getEmail()),
+                                            channelId, true)
                             );
+                            canGoToChatChannel=true;
 
                         }
+                    }
                 }
             }
 
@@ -139,6 +143,20 @@ public class PopUpActivity extends AppCompatActivity{
         Intent goToProfile = new Intent(PopUpActivity.this, IM_Activity.class);
         goToProfile.putExtra("ChannelId",channelId);
         startActivity(goToProfile);
+                if (canGoToChatChannel) {
+                    Intent goToIM_Activity = new Intent(PopUpActivity.this, IM_Activity.class);
+                    goToIM_Activity.putExtra("ChannelId", channelId);
+                    goToIM_Activity.putExtra("userId", userId);
+                    startActivity(goToIM_Activity);
+                }
+                else
+                {
+                    //ToDo display that the invitation is no longer active.
+                    Log.d("PopUpActivity","The invitation was no longer active");
+                    finish();
+                }
+            }
+        });
     }
 
 
