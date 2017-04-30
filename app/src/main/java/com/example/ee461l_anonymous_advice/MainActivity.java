@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        PopUpActivity popUp = new PopUpActivity();
 //        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
 //        startActivity(gotoPopUp);
-    }
+
 
 
     @Override

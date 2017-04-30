@@ -156,8 +156,8 @@ public class PopUpActivity extends AppCompatActivity{
                     finish();
                 }
             }
-        });
-    }
+        }
 
 
-}
+
+

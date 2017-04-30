@@ -136,10 +136,10 @@ public class LandingActivity extends AppCompatActivity {
 
     public void search(View v){
         problemStatement = (String)problem.getText().toString();
-//        if (problemStatement.isEmpty())
-//        {
-//            return;
-//        }
+        if (problemStatement.isEmpty())
+        {
+            return;
+        }
         Intent gotoChat = new Intent(this, IM_Activity.class);
 
         createUserList();
@@ -154,8 +154,8 @@ public class LandingActivity extends AppCompatActivity {
         startActivity(i);
 
         //need to add usser id
-        gotoChat.putExtra("userId",tempId);
-        startActivity(gotoChat);
+        i.putExtra("userId",tempId);
+        startActivity(i);
     }
 
     public void createUserList(){
