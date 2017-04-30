@@ -166,7 +166,6 @@ public class IM_Activity extends AppCompatActivity
         mUsername = ANONYMOUS;
         closeChat = (ImageView)findViewById(R.id.closeChatButton);
 
-        //todo update user availability in DB
 
         isAdvisee = getIntent().getBooleanExtra("isAdvisee", true);
 
@@ -217,14 +216,10 @@ public class IM_Activity extends AppCompatActivity
         mMessageRecyclerView = (RecyclerView) findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
-        //mLayoutManager = new LinearLayoutManager(this);
 
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
-        //mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
-        //mMessageRecyclerView.setLayoutManager(new LinearLayoutManager(mMessageRecyclerView.getContext()));
-
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -259,16 +254,6 @@ public class IM_Activity extends AppCompatActivity
                 R.layout.item_message,
                 MessageViewHolder.class,
                 mFirebaseDatabaseReference.child("ChatChannelMessages").child(channelref)){
-
-//            @Override
-//            protected FriendlyMessage parseSnapshot(DataSnapshot snapshot) {
-//                FriendlyMessage friendlyMessage = super.parseSnapshot(snapshot);
-//                if (friendlyMessage != null) {
-//                    friendlyMessage.setId(snapshot.getKey());
-//                }
-//                return friendlyMessage;
-//            }
-
 
             @Override
             protected void populateViewHolder(final MessageViewHolder viewHolder,
@@ -387,17 +372,6 @@ public class IM_Activity extends AppCompatActivity
                 mMessageEditText.setText("");
             }
         });
-        //mAddMessageImageView = (ImageView) findViewById(R.id.addMessageImageView);
-//        mAddMessageImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onCliccck(View view) {
-//                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//                intent.addCategory(Intent.CATEGORY_OPENABLE);
-//                intent.setType("image/*");
-//                startActivityForResult(intent, REQUEST_IMAGE);
-//            }
-//        });
-
 
     }
 

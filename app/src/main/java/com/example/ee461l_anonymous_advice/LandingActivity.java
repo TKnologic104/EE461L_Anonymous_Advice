@@ -47,21 +47,19 @@ public class LandingActivity extends AppCompatActivity {
     private DatabaseReference mUserDatabaseReference;
 
     public ArrayList<String> userIdArrayList = new ArrayList<>();
-    public boolean popupflag;
 
     private String channelId;
     private String invitationId;
-
+    private String tempId;
 
     private ValueEventListener openChannels;
-
     private Invitation receivedInvitation;
 
     private DatabaseReference mDatabaseReference;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private String tempId;
+
 
     private ValueEventListener invitationEventListener;
     public Intent gotoChat;
@@ -76,12 +74,11 @@ public class LandingActivity extends AppCompatActivity {
         profile = (Button) findViewById(R.id.bn_profile);
         problem = (EditText) findViewById(R.id.problemText);
         search = (Button) findViewById(R.id.bn_search);
-        //friends = (Button) findViewById(R.id.bn_friends);
         charCount = (TextView) findViewById(R.id.charCountValue);
+        //friends = (Button) findViewById(R.id.bn_friends);
 
         problem.addTextChangedListener(mTextEditorWatcher);
-        //addValueEventListeners();
-        //valueevent listners
+
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -123,10 +120,7 @@ public class LandingActivity extends AppCompatActivity {
 
         mDatabaseReference.addValueEventListener(invitationEventListener);
 
-        //mDatabaseReference= Fir
     }
-    //public InvitationAdapter(Callback ca)
-
 
     public void gotoProfile(View v){
         //TODO: create Profile Activity
@@ -137,7 +131,6 @@ public class LandingActivity extends AppCompatActivity {
         gotoProfile.putExtra("userEmail",tempEmail);
         gotoProfile.putExtra("userId",tempId);
         startActivity(gotoProfile);
-        //create intent to goto Profile
     }
 
     public void search(View v){
@@ -150,8 +143,8 @@ public class LandingActivity extends AppCompatActivity {
 
 
         createUserList();
-        createInviteDB(gotoChat);
-        createChatChannelDB(gotoChat);
+        createChatChannelDBAndInvitation(gotoChat);
+
 
         //need to add usser id
         gotoChat.putExtra("userId",tempId);
@@ -187,7 +180,7 @@ public class LandingActivity extends AppCompatActivity {
     }
 
 
-    public void createChatChannelDB(Intent gotoChat){
+    public void createChatChannelDBAndInvitation(Intent gotoChat){
 
         mDatabaseReference =  FirebaseDatabase.getInstance().getReference();
         channelId = mDatabaseReference.child("ChatChannel").push().getKey();
@@ -203,11 +196,11 @@ public class LandingActivity extends AppCompatActivity {
 
         mDatabaseReference.child("ChatChannel").child(channelId).setValue(channel);
 
+        //Invitation
+        createInviteDB(gotoChat);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         FriendlyMessage invitationmssg = new FriendlyMessage(invitation.getquestion(),"Advisee",null,null,false);
         mDatabaseReference.child("ChatChannelMessages").child(channelId).push().setValue(invitationmssg);
-//        FriendlyMessage emptymssg1 = new FriendlyMessage("othermessage","Anonymous",null,null);
-//        mDatabaseReference.child("ChatChannelMessages").child(channelId).push().setValue(emptymssg1);
 
     }
 
@@ -246,7 +239,7 @@ public class LandingActivity extends AppCompatActivity {
         }
     };
 
-    //debbuging method
+    //Debbuging method
     private void printUserList(){
         System.out.println("-------------------------");
         for(String i:userIdArrayList)

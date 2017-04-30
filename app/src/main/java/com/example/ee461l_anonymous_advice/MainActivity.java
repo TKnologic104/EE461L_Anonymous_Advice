@@ -92,10 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // Firebase instance variables
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
-    private DatabaseReference mDatabaseReference;
-//    private FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder>
-//            mFirebaseAdapter;
-
     //TODO add the EventListner for the pop-up
 
     @Override
@@ -116,16 +112,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setDeveloperModeEnabled(true)
                         .build();
 
-// Define default config values. Defaults are used when fetched config values are not
-// available. Eg: if an error occurred fetching values from the server.
+        // Define default config values. Defaults are used when fetched config values are not
+        // available. Eg: if an error occurred fetching values from the server.
         Map<String, Object> defaultConfigMap = new HashMap<>();
         defaultConfigMap.put("friendly_msg_length", 10L);
 
-// Apply config settings and default values.
+        // Apply config settings and default values.
         mFirebaseRemoteConfig.setConfigSettings(firebaseRemoteConfigSettings);
         mFirebaseRemoteConfig.setDefaults(defaultConfigMap);
 
-// Fetch remote config.
+        // Fetch remote config.
 
         Prof_Section = (LinearLayout) findViewById(R.id.prof_section);
         SignOut = (Button) findViewById(R.id.bn_logout);
@@ -136,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         gotoLanding = (Button) findViewById(R.id.bn_landing);
         gotoFAQ = (Button) findViewById(R.id.bn_faq);
 
-        //gotoPopUp = (Button) findViewById(R.id.bn_popup);
 
 
 
@@ -144,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser == null) {
-            // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, SignInActivity.class));
             finish();
             return;
@@ -159,71 +153,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
-        //String Name = String.valueOf(getIntent());
-//        Intent intent = getIntent();
-//        Name.setText(intent.getStringExtra("username"));
-//        Gmail.setText(intent.getStringExtra("userEmail"));
-        //import picture using glide. 27:00 in youtube video
-        //updateUI(true);
-
         Name.setText(mUsername);
         Gmail.setText(mFirebaseUser.getEmail());
 
-        //valueevent listners
-        /*mDatabaseReference =  FirebaseDatabase.getInstance().getReference("User");
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot i:dataSnapshot.getChildren())
-                {
-                    User temp = i.getValue(User.class);
-                    if (temp==null) break;
-                    if (temp.email.equals(mFirebaseUser.getEmail()))
-                    {
-                        tempId=temp.id;
-                        //gotoLanding.putExtra("userId", tempId);
-                        mDatabaseReference.child(tempId).child("available").setValue(true);
-                        //isUserDB=true;
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
-
-
     }
-
-
-
-    public void showNotification(View v) {
-        //Uses the builder design Pattern for implementation a notification system.
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        // by using this we can set the parameters for the notification.
-        builder.setSmallIcon(R.drawable.photo);
-        builder.setContentTitle("My Notification");
-        builder.setContentText("This is my first notification...");
-        //we have to make an intent for starting the activity.
-        //Intent gotoNoti = new Intent(this, SecondClass.class);
-        Intent gotoNoti = new Intent(this, LandingActivity.class);
-        //the purpose of the stackuilder object is to return you to home screen
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(SecondClass.class);
-        stackBuilder.addNextIntent(gotoNoti);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-        NotificationManager NM = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NM.notify(0, builder.build());
-        //testfixed
-    }
-
-//    private void updateUI(boolean b) {
-//    }
 
     @Override
     public void onClick(View v) {
@@ -254,26 +187,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-    public void gotoPopUp(View v) {
-//        String tempName = (getIntent().getStringExtra("username"));
-//        String tempEmail = (getIntent().getStringExtra("userEmail"));
-//        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
-//        gotoPopUp.putExtra("username", tempName);
-//        gotoPopUp.putExtra("userEmail", tempEmail);
-//        startActivity(gotoPopUp);
-
-//        PopUpActivity popUp = new PopUpActivity();
-//        Intent gotoPopUp = new Intent(this, com.example.ee461l_anonymous_advice.PopUpActivity.class);
-//        startActivity(gotoPopUp);
-    }
-
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-//ToDO pass userId when going back to Landing activity;
+
+    //ToDO pass userId when going back to Landing activity;
     private void signOut(){
         mFirebaseAuth.signOut();
         Auth.GoogleSignInApi.signOut(mGoogleApiClient);

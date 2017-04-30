@@ -88,7 +88,14 @@ public class PopUpActivity extends AppCompatActivity{
                 {
 
                     ChatChannel temp =  i.getValue(ChatChannel.class);
+
+
                     if (!temp.isLocked) {
+
+                        mFirebaseAuth = FirebaseAuth.getInstance();
+                        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                        channelId = getIntent().getStringExtra("channelId");
+                        userId = getIntent().getStringExtra("userId");
 
                         if (temp.id.equals(channelId)) {
                             mDatabaseReference.child(temp.id).setValue(
@@ -108,7 +115,7 @@ public class PopUpActivity extends AppCompatActivity{
 
             }
         });
-        //mDatabaseReference.addValueEventListener(ChannelEventListener);
+
         if (mFirebaseUser==null)
         {
             Log.d("PopUpActivity", "Could not get email from " +
@@ -118,8 +125,6 @@ public class PopUpActivity extends AppCompatActivity{
         ignoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(PopUpActivity.this, LandingActivity.class);
-//                startActivity(i);
                 finish();
             }
         });
