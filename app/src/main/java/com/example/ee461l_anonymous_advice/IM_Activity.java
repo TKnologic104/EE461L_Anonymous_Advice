@@ -297,14 +297,14 @@ public class IM_Activity extends AppCompatActivity
                 viewHolder.messengerTextView.setText(friendlyMessage.getName());
                 if (friendlyMessage.getIsAdvisee()) {
                     viewHolder.messengerImageView.setImageDrawable(ContextCompat.getDrawable(IM_Activity.this,
-                            R.drawable.ic_account_circle_black_36dp));//ToDO create drawable for advisee
+                            R.drawable.adviseeicon));//ToDO create drawable for advisee
                 } else {
 //                    Glide.with(IM_Activity.this)
 //                            .load(friendlyMessage.getPhotoUrl())
 //                            .into(viewHolder.messengerImageView);
 
                     viewHolder.messengerImageView.setImageDrawable(ContextCompat.getDrawable(IM_Activity.this,
-                            R.drawable.ic_add_black_24dp));//ToDO create drawable for adviser
+                            R.drawable.advisoricon));//ToDO create drawable for adviser
                 }
 
 //                // write this message to the on-device index
