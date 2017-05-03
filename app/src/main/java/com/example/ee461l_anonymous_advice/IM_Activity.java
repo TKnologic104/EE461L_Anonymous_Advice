@@ -293,7 +293,7 @@ public class IM_Activity extends AppCompatActivity
                     viewHolder.messageTextView.setVisibility(TextView.GONE);
                 }
 
-                if(isAdvisee) {
+                if(friendlyMessage.getIsAdvisee()) {
                     viewHolder.messengerTextView.setText("Advisee");
                 }
                 else{
