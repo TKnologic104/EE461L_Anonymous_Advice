@@ -47,6 +47,7 @@ public class LandingActivity extends AppCompatActivity {
     private DatabaseReference mUserDatabaseReference;
 
     public ArrayList<String> userIdArrayList = new ArrayList<>();
+    public boolean popupflag;
 
     private String channelId;
     private String invitationId;
@@ -123,7 +124,10 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void gotoProfile(View v){
-        //TODO: create Profile Activity
+        profileIntent();
+    }
+
+    public void profileIntent() {
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
         Intent gotoProfile = new Intent(this, MainActivity.class);
@@ -217,9 +221,7 @@ public class LandingActivity extends AppCompatActivity {
         gotoChat.putExtra("adviseeQuestion", invitation.question);
     }
 
-    public void gotoFriends(){
-        //TODO: create intent to goto Friends page
-    }
+
 
 
     /*

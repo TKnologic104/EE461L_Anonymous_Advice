@@ -176,6 +176,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void gotoFAQ(View v) {
+        FAQIntent();
+    }
+
+    public void FAQIntent(){
         String tempName = (getIntent().getStringExtra("username"));
         String tempEmail = (getIntent().getStringExtra("userEmail"));
         String tempId =  getIntent().getStringExtra("userId");
@@ -205,6 +209,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         finish();
         startActivity(new Intent(this, SignInActivity.class));
 
+    }
+
+    public void gotoSignIn() {
+        startActivity(new Intent(this, SignInActivity.class));
     }
 
 

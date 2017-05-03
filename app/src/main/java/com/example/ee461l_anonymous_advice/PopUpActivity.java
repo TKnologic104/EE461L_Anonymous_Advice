@@ -139,6 +139,15 @@ public class PopUpActivity extends AppCompatActivity{
                     e.printStackTrace();
                 }
 
+                gotoIM(channelId);
+            }
+        });
+    }
+
+    public void gotoIM(String channelId) {
+        Intent goToProfile = new Intent(PopUpActivity.this, IM_Activity.class);
+        goToProfile.putExtra("ChannelId",channelId);
+        startActivity(goToProfile);
                 if (canGoToChatChannel) {
                     Intent goToIM_Activity = new Intent(PopUpActivity.this, IM_Activity.class);
 
@@ -162,8 +171,8 @@ public class PopUpActivity extends AppCompatActivity{
                     finish();
                 }
             }
-        });
-    }
+        }
 
 
-}
+
+

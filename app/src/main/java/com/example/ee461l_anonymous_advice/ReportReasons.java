@@ -1,5 +1,6 @@
 package com.example.ee461l_anonymous_advice;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,11 +15,13 @@ public class ReportReasons extends AppCompatActivity {
     private CheckBox joke;
     private CheckBox offensive;
     private Button submitButton;
+    int reason = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_reasons);
+
 
         harrasment = (CheckBox) findViewById(R.id.reason_harrasment);
         spam = (CheckBox) findViewById(R.id.reason_spam);
@@ -28,28 +31,33 @@ public class ReportReasons extends AppCompatActivity {
         submitButton = (Button) findViewById(R.id.report_button);
 
         if(harrasment.isChecked()){
-
+            reason ++;
         }
         if(spam.isChecked()){
-
+            reason++;
         }
         if(notAdvice.isChecked()){
-
+            reason++;
         }
         if(joke.isChecked()){
-
+            reason++;
         }
         if(offensive.isChecked()){
-
+            reason++;
         }
+
 
 
         submitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-//                Intent i = new Intent(MainActivity.this, otherClass.class);
-//                i.putExtra("reason", reason);
-//                startActivity(i);
+                Intent i = new Intent(ReportReasons.this, LandingActivity.class);
+
+                if(reason != 0){
+                    i.putExtra("reason", reason);
+                }
+
+                startActivity(i);
             }
         });
     }

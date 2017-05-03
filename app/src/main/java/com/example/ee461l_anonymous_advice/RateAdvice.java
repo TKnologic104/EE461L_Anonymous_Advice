@@ -12,6 +12,7 @@ import android.widget.TextView;
 //comment
 public class RateAdvice extends AppCompatActivity {
     private Button submitButton;
+    private Button reportButton;
     private  SeekBar seekBar;
     private int rating;
     private TextView seekBarTextview;
@@ -21,7 +22,10 @@ public class RateAdvice extends AppCompatActivity {
         setContentView(R.layout.activity_rate_advice);
         //call setup 
 
-        setUp();
+        rating = 0;
+        seekBarTextview = (TextView) findViewById(R.id.seekBarProgressTextView);
+
+
         seekBar = (SeekBar) findViewById(R.id.seekBarAdviceRating);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -37,20 +41,28 @@ public class RateAdvice extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-    }
 
-    public void setUp() {
-        rating = 0;
-        seekBarTextview = (TextView) findViewById(R.id.seekBarProgressTextView);
+
         submitButton = (Button) findViewById(R.id.rateAdviceButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
 
-                //  Intent i = new Intent(RateAdvice.this, nextActivity.class);
-                //  i.putExtra("rating", rating);
-                //           startActivity(i);
+                Intent i = new Intent(RateAdvice.this, LandingActivity.class);
+                i.putExtra("rating", rating);
+                startActivity(i);
             }
         });
+
+        reportButton = (Button) findViewById(R.id.reportUser);
+        reportButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(RateAdvice.this, ReportReasons.class);
+                startActivity(i);
+            }
+        });
+
     }
+
 }

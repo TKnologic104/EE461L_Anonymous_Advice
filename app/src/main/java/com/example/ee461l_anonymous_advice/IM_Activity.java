@@ -134,6 +134,7 @@ public class IM_Activity extends AppCompatActivity
     private ProgressBar mProgressBar;
     private EditText mMessageEditText;
     private ImageView mAddMessageImageView;
+    private ImageView mCloseButton;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
