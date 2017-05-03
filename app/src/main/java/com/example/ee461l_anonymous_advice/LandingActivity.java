@@ -203,7 +203,7 @@ public class LandingActivity extends AppCompatActivity {
         //Invitation
         createInviteDB(gotoChat);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        FriendlyMessage invitationmssg = new FriendlyMessage(invitation.getquestion(),"Advisee",null,null,false);
+        FriendlyMessage invitationmssg = new FriendlyMessage(invitation.getquestion(),"Advisee",null,null,true);
         mDatabaseReference.child("ChatChannelMessages").child(channelId).push().setValue(invitationmssg);
 
     }

@@ -293,8 +293,12 @@ public class IM_Activity extends AppCompatActivity
                     viewHolder.messageTextView.setVisibility(TextView.GONE);
                 }
 
-
-                viewHolder.messengerTextView.setText(friendlyMessage.getName());
+                if(isAdvisee) {
+                    viewHolder.messengerTextView.setText("Advisee");
+                }
+                else{
+                    viewHolder.messengerTextView.setText("Adviser");
+                }
                 if (friendlyMessage.getIsAdvisee()) {
                     viewHolder.messengerImageView.setImageDrawable(ContextCompat.getDrawable(IM_Activity.this,
                             R.drawable.adviseeicon));//ToDO create drawable for advisee
